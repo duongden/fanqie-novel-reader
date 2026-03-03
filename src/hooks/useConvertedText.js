@@ -9,13 +9,7 @@ export function useConvertedText(text, useTraditional) {
       setConverted('');
       return;
     }
-    let cancelled = false;
-    maybeConvert(text, useTraditional).then((result) => {
-      if (!cancelled) setConverted(result);
-    });
-    return () => {
-      cancelled = true;
-    };
+    setConverted(maybeConvert(text, useTraditional));
   }, [text, useTraditional]);
 
   return converted;
