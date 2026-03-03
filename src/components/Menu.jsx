@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { maybeConvert } from '../utils/zh-convert';
 
 const MenuList = styled.ul`
   list-style-type: none;
@@ -61,7 +62,7 @@ const MenuItem = styled.li`
   }
 `;
 
-function Menu({ itemDataList, sortOrder, bookId }) {
+function Menu({ itemDataList, sortOrder, bookId, useTraditionalChinese = false }) {
   const items = itemDataList ? itemDataList : [];
 
   const compareChapters = (a, b) => {
@@ -81,7 +82,7 @@ function Menu({ itemDataList, sortOrder, bookId }) {
     <MenuList>
       {items.map((item) => (
         <MenuItem key={item.item_id}>
-          <Link to={`/chapter?itemId=${item.item_id}${bookId ? `&bookId=${bookId}` : ''}`}>{item.title}</Link>
+          <Link to={`/chapter?itemId=${item.item_id}${bookId ? `&bookId=${bookId}` : ''}`}>{maybeConvert(item.title, useTraditionalChinese)}</Link>
           {item.chapter_word_number != null && <span>共計{item.chapter_word_number}字</span>}
         </MenuItem>
       ))}

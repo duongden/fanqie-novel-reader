@@ -115,13 +115,11 @@ function Chapter() {
   }, [itemId, bookId]);
 
   const handleTraditionalChineseToggle = useCallback(() => {
-    setUseTraditionalChineseState((prev) => {
-      const next = !prev;
-      setUseTraditionalChinese(next);
-      return next;
-    });
+    const next = !useTraditionalChinese;
+    setUseTraditionalChinese(next); // Persist before loadChapter so applyChapterConversion reads the new value
+    setUseTraditionalChineseState(next);
     loadChapter(false);
-  }, [loadChapter]);
+  }, [loadChapter, useTraditionalChinese]);
 
   useEffect(() => {
     if (itemId) loadChapter(false);

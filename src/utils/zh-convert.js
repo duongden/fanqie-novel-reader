@@ -15,7 +15,8 @@ export function toTraditional(text) {
   return getConverter()(text);
 }
 
-export function maybeConvert(text) {
-  if (!getUseTraditionalChinese() || !text || typeof text !== 'string') return text;
+export function maybeConvert(text, useTraditional) {
+  const shouldConvert = useTraditional !== undefined ? useTraditional : getUseTraditionalChinese();
+  if (!shouldConvert || !text || typeof text !== 'string') return text;
   return getConverter()(text);
 }

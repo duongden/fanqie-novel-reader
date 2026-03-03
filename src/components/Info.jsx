@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import AbstractModal from './AbstractModal';
 import { cleanAbstract, truncateText, MAX_ABSTRACT_LENGTH } from '../utils/text';
+import { maybeConvert } from '../utils/zh-convert';
 
 const InfoWrapper = styled.div`
   display: flex;
@@ -93,11 +94,11 @@ const ShowMore = styled.button`
   }
 `;
 
-function Info({ bookInfo }) {
+function Info({ bookInfo, useTraditionalChinese = false }) {
   const [showFullAbstract, setShowFullAbstract] = useState(false);
   const bookData = bookInfo ? bookInfo : { book_info: {} };
   const bookInfoData = bookData.book_info || {};
-  const fullAbstract = cleanAbstract(bookInfoData.abstract);
+  const fullAbstract = cleanAbstract(maybeConvert(bookInfoData.abstract, useTraditionalChinese));
   const truncated = truncateText(fullAbstract, MAX_ABSTRACT_LENGTH);
   const isLong = fullAbstract.length > MAX_ABSTRACT_LENGTH;
 
@@ -113,8 +114,8 @@ function Info({ bookInfo }) {
       />
       <TextBlock>
         <TitleBlock>
-          <h1>{bookInfoData.book_name}</h1>
-          <h3>作者: {bookInfoData.author}</h3>
+          <h1>{maybeConvert(bookInfoData.book_name, useTraditionalChinese)}</h1>
+          <h3>作者: {maybeConvert(bookInfoData.author, useTraditionalChinese)}</h3>
         </TitleBlock>
         <Abstract>{truncated}</Abstract>
         {isLong && (

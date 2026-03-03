@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Minus, Plus, Sun, Moon, RefreshCw, Languages } from 'lucide-react';
 import HomeButton from './HomeButton';
 import styled from 'styled-components';
+import { maybeConvert } from '../utils/zh-convert';
 import { FONT_SIZE_MIN, FONT_SIZE_MAX, TEXT_BRIGHTNESS_MIN, TEXT_BRIGHTNESS_MAX } from '../utils/constants';
 
 const TopBarWrapper = styled.div`
@@ -131,7 +132,7 @@ const ProgressText = styled.div`
   }
 `;
 
-function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, textBrightness, onTextBrightnessChange, useTraditionalChinese, onTraditionalChineseToggle, onRefresh }) {
+function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, textBrightness, onTextBrightnessChange, useTraditionalChinese = false, onTraditionalChineseToggle, onRefresh }) {
   if (!chapterData || !chapterData.novel_data) return null;
 
   const { order, serial_count } = chapterData.novel_data;
@@ -141,8 +142,8 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, textBrightn
     <TopBarWrapper>
       <InfoRow>
         <TitleBlock>
-          <h1>{chapterData.novel_data.title}</h1>
-          {bookInfo && <h3>{bookInfo.book_info.book_name}</h3>}
+          <h1>{maybeConvert(chapterData.novel_data.title, useTraditionalChinese)}</h1>
+          {bookInfo && <h3>{maybeConvert(bookInfo.book_info?.book_name, useTraditionalChinese)}</h3>}
         </TitleBlock>
         <RightActions>
           <HomeButton />

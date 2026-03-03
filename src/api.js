@@ -68,21 +68,12 @@ const directoryCache = createCacheHelpers(DIRECTORY_CACHE_KEY);
 const chapterCache = createCacheHelpers(CHAPTER_CACHE_KEY);
 const detailCache = createCacheHelpers(DETAIL_CACHE_KEY);
 
-function applyDetailConversion(result) {
-  return {
-    ...result,
-    abstract: maybeConvert(result.abstract),
-    author: maybeConvert(result.author),
-    book_name: maybeConvert(result.book_name),
-  };
-}
-
 export async function fetchBookDetail(bookId, { forceRefresh = false } = {}) {
   if (!forceRefresh) {
     const cached = detailCache.get(bookId);
     if (cached) {
       debug('fetchBookDetail cache hit', bookId);
-      return applyDetailConversion(cached);
+      return cached;
     }
   }
 
@@ -100,28 +91,7 @@ export async function fetchBookDetail(bookId, { forceRefresh = false } = {}) {
     book_name: d.book_name ?? '',
   };
   detailCache.set(bookId, result);
-  return applyDetailConversion(result);
-}
-
-function applyDirectoryConversion(result) {
-  const list = result?.data?.data?.data?.item_data_list ?? [];
-  const convertedList = list.map((item) => ({
-    ...item,
-    title: maybeConvert(item.title),
-  }));
-  return {
-    ...result,
-    data: {
-      ...result.data,
-      data: {
-        ...result.data?.data,
-        data: {
-          ...result.data?.data?.data,
-          item_data_list: convertedList,
-        },
-      },
-    },
-  };
+  return result;
 }
 
 export async function fetchBook(bookId, { forceRefresh = false } = {}) {
@@ -129,7 +99,7 @@ export async function fetchBook(bookId, { forceRefresh = false } = {}) {
     const cached = directoryCache.get(bookId);
     if (cached) {
       debug('fetchBook cache hit', bookId);
-      return applyDirectoryConversion(cached);
+      return cached;
     }
   }
 
@@ -157,7 +127,7 @@ export async function fetchBook(bookId, { forceRefresh = false } = {}) {
     },
   };
   directoryCache.set(bookId, result);
-  return applyDirectoryConversion(result);
+  return result;
 }
 
 function applyChapterConversion(result) {
