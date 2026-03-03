@@ -1,4 +1,4 @@
-# 番茄閱讀器
+# 番茄小說閱讀器
 
 Tomato Reader - 一個簡潔、無廣告的番茄小說閱讀器，適用於 Web 和行動裝置。
 
@@ -6,7 +6,7 @@ Tomato Reader is a clean and ad-free novel reader for both web and mobile.
 
 ## 專案簡介 (Introduction)
 
-**番茄閱讀器** 是一個用於線上閱讀小說的平台，它旨在提供一個簡單、無干擾的閱讀體驗。無需繁瑣的註冊，只需輸入書籍ID，即可開始暢享你喜歡的小說。
+**番茄小說閱讀器** 是一個用於線上閱讀小說的平台，它旨在提供一個簡單、無干擾的閱讀體驗。無需繁瑣的註冊，只需輸入書籍ID，即可開始暢享你喜歡的小說。
 
 **Tomato Reader** is a platform for reading novels online. It aims to provide a simple and distraction-free reading experience. No need for complicated registration, just enter the book ID, and you can start enjoying your favorite novels.
 
@@ -33,7 +33,7 @@ The built static files will be output to `dist/` and can be deployed to any stat
 
 ## 使用方法 (Getting Started)
 
-要開始使用番茄閱讀器，只需按照以下步驟操作：
+要開始使用番茄小說閱讀器，只需按照以下步驟操作：
 
 To get started with Tomato Reader, simply follow these steps:
 
@@ -55,7 +55,7 @@ To get started with Tomato Reader, simply follow these steps:
 
   **Ad-Free**: We guarantee that no ads will be displayed while you are reading.
 
-- **跨平台**：無論你使用的是電腦、平板還是手機，都可以使用番茄閱讀器。
+- **跨平台**：無論你使用的是電腦、平板還是手機，都可以使用番茄小說閱讀器。
 
   **Cross-Platform**: Tomato Reader is accessible on your computer, tablet, or smartphone.
 
@@ -67,6 +67,6 @@ This project is for educational and learning purposes only. Please do not use th
 
 ---
 
-感謝您使用番茄閱讀器！希望你享受愉快的閱讀時光。
+感謝您使用番茄小說閱讀器！希望你享受愉快的閱讀時光。
 
 Thank you for using Tomato Reader! We hope you enjoy your reading experience.

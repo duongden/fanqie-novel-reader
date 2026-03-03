@@ -77,7 +77,9 @@ export async function fetchBookDetail(bookId, { forceRefresh = false } = {}) {
 }
 
 export async function fetchBook(bookId, { forceRefresh = false } = {}) {
-  if (!forceRefresh) {
+  if (forceRefresh) {
+    directoryCache.remove(bookId);
+  } else {
     const cached = directoryCache.get(bookId);
     if (cached) {
       return cached;
@@ -85,7 +87,7 @@ export async function fetchBook(bookId, { forceRefresh = false } = {}) {
   }
 
   const url = `${getApiBase()}/api/directory?book_id=${bookId}`;
-  const res = await fetchWithTimeout(url);
+  const res = await fetchWithTimeout(url, forceRefresh ? { cache: 'no-store' } : {});
   if (!res.ok) throw new Error('Failed to fetch book data');
   const json = await res.json();
   if (json.code !== 200) throw new Error('Failed to fetch book data');

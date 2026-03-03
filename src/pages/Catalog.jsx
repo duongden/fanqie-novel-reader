@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useSearchParams, Navigate, useNavigate } from 'react-router-dom';
-import { X, Languages } from 'lucide-react';
+import { useSearchParams, Navigate, useNavigate, Link } from 'react-router-dom';
+import { Bookmark, Languages, RefreshCw } from 'lucide-react';
 import Menu from '../components/Menu';
 import Info from '../components/Info';
 import Error from '../components/Error';
 import MyHead from '../components/MyHead';
 import Sort from '../components/Sort';
 import LoadingPage from '../components/LoadingPage';
-import BackButton from '../components/BackButton';
+import HomeButton from '../components/HomeButton';
 import styled from 'styled-components';
 import { BOOK_ID_KEY } from '../utils/constants';
 
@@ -41,10 +41,27 @@ const BackBar = styled.div`
   }
 `;
 
+const SiteTitle = styled(Link)`
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--accent-color);
+  }
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
+`;
+
 const RightActions = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: auto;
 `;
 
 const IconButton = styled.button`
@@ -67,41 +84,6 @@ const IconButton = styled.button`
   }
 `;
 
-const CloseButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  min-height: 44px;
-  color: var(--text-color-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  background: none;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: var(--hover-background-color);
-    color: var(--accent-color);
-    border-color: var(--accent-color);
-  }
-
-  svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 480px) {
-    padding: 8px 12px;
-    font-size: 13px;
-    gap: 6px;
-  }
-`;
 
 function Catalog() {
   const [searchParams] = useSearchParams();
@@ -115,7 +97,11 @@ function Catalog() {
 
   const loadBook = useCallback((forceRefresh = false) => {
     if (!bookId) return;
-    fetchBookWithDetail(bookId, { forceRefresh })
+    if (forceRefresh) {
+      setError(null);
+      setBookInfo(null);
+    }
+    fetchBookWithDetail(bookId, { forceRefresh, catalogOnly: forceRefresh })
       .then((merged) => {
         setBookInfo(merged);
         safeSetItem(BOOK_ID_KEY, bookId);
@@ -153,9 +139,11 @@ function Catalog() {
     <CatalogWrapper>
       <MyHead bookInfo={bookInfo} />
       {error && <Error message={error} href="/" />}
+      {bookInfo && (
       <BackBar>
-        <BackButton />
+        <SiteTitle to="/">番茄小說閱讀器</SiteTitle>
         <RightActions>
+          <HomeButton />
           <IconButton
             type="button"
             title={useTraditionalChinese ? '切換為簡體中文' : '切換為繁體中文'}
@@ -164,18 +152,25 @@ function Catalog() {
           >
             <Languages size={20} strokeWidth={2.5} />
           </IconButton>
+          <IconButton
+            type="button"
+            title="重新載入目錄"
+            onClick={() => loadBook(true)}
+          >
+            <RefreshCw size={20} strokeWidth={2.5} />
+          </IconButton>
           {lastReadItemId && (
-            <CloseButton
+            <IconButton
               type="button"
               onClick={() => navigate(`/chapter?bookId=${bookId}&itemId=${lastReadItemId}`)}
               title="返回章節"
             >
-              <X size={20} strokeWidth={2} />
-              關閉
-            </CloseButton>
+              <Bookmark size={20} strokeWidth={2} />
+            </IconButton>
           )}
         </RightActions>
       </BackBar>
+      )}
       {bookInfo ? (
         <>
           <Info bookInfo={bookInfo} useTraditionalChinese={useTraditionalChinese} />

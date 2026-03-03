@@ -16,8 +16,10 @@ const TopBarWrapper = styled.div`
   gap: 12px;
   background-color: rgba(18, 18, 18, 0.95);
   backdrop-filter: blur(10px);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   border-bottom: 1px solid var(--border-color);
 

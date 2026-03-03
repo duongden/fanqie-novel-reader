@@ -417,7 +417,7 @@ function NullPage() {
   return (
     <NullPageWrapper>
       <Header>
-        <Title>番茄閱讀器</Title>
+        <Title>番茄小說閱讀器</Title>
         <Subtitle>簡單、乾淨、無廣告的沉浸式小說閱讀體驗</Subtitle>
       </Header>
 

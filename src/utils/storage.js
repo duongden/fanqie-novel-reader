@@ -113,7 +113,9 @@ export function setTextBrightness(value) {
 }
 
 export function getUseTraditionalChinese() {
-  return safeGetItem(TRADITIONAL_CHINESE_KEY) === '1';
+  const raw = safeGetItem(TRADITIONAL_CHINESE_KEY);
+  if (raw == null) return true; // enabled by default for new users
+  return raw === '1';
 }
 
 export function setUseTraditionalChinese(enabled) {
