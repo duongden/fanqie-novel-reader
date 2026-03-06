@@ -152,3 +152,9 @@ export async function fetchItem(itemId, { forceRefresh = false } = {}) {
   
   return applyChapterConversion(result);
 }
+
+export async function fetchComments(bookId, { count = 20, offset = 1 } = {}) {
+  const url = `${getApiBase()}/api/comment?book_id=${bookId}&count=${count}&offset=${offset}`;
+  const json = await fetchAndValidate(url);
+  return json.data ?? { data: { comment: [], comment_cnt: 0, context: '', has_more: false } };
+}

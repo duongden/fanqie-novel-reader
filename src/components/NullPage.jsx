@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { deleteBookData, getLastReadChapter } from '../utils/storage';
 import { useTraditionalChineseToggle } from '../hooks/useTraditionalChineseToggle';
 import { maybeConvert } from '../utils/zh-convert';
-import { buildChapterOrCatalogUrl, buildCatalogUrl } from '../utils/navigation';
+import { buildChapterOrCatalogUrl, buildCatalogUrl, buildCommentsUrl } from '../utils/navigation';
 import ReadingHistory from './ReadingHistory';
 import BookInputSection from './BookInputSection';
 import HelpSection from './HelpSection';
@@ -79,6 +79,11 @@ function NullPage() {
     navigate(buildCatalogUrl(bookId));
   };
 
+  const handleCommentClick = (e, bookId) => {
+    e.stopPropagation();
+    navigate(buildCommentsUrl(bookId));
+  };
+
   const handleDeleteBook = (e, bookId, bookInfo) => {
     e.stopPropagation();
     const convertedName = maybeConvert(bookInfo?.book_name) || bookId;
@@ -100,6 +105,7 @@ function NullPage() {
         refreshKey={refreshKey}
         onBookClick={handleBookClick}
         onCatalogClick={handleCatalogClick}
+        onCommentClick={handleCommentClick}
         onDeleteClick={handleDeleteBook}
         useTraditionalChinese={useTraditionalChinese}
       />

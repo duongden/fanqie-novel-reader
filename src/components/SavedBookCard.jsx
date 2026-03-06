@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { List, Trash2 } from 'lucide-react';
+import { List, MessageCircle, Trash2 } from 'lucide-react';
 import { useConvertedText } from '../hooks/useConvertedText';
 
 const Card = styled.div`
@@ -120,13 +120,15 @@ const ActionButton = styled.button`
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  background-color: ${(p) => (p.$variant === 'delete' ? 'rgba(239, 68, 68, 0.9)' : 'rgba(100, 116, 139, 0.9)')};
+  background-color: ${(p) =>
+    p.$variant === 'delete' ? 'rgba(239, 68, 68, 0.9)' : p.$variant === 'comment' ? 'rgba(255, 152, 0, 0.9)' : 'rgba(100, 116, 139, 0.9)'};
   color: white;
   opacity: ${(p) => (p.$variant === 'delete' ? 0.7 : 0.9)};
 
   &:hover {
     opacity: 1;
-    background-color: ${(p) => (p.$variant === 'delete' ? '#dc2626' : 'rgba(148, 163, 184, 0.95)')};
+    background-color: ${(p) =>
+      p.$variant === 'delete' ? '#dc2626' : p.$variant === 'comment' ? 'var(--accent-color)' : 'rgba(148, 163, 184, 0.95)'};
     transform: scale(1.05);
   }
 
@@ -140,7 +142,7 @@ const ActionButton = styled.button`
   }
 `;
 
-function SavedBookCard({ bookInfo, actionHint, onClick, onCatalogClick, onDeleteClick, useTraditionalChinese }) {
+function SavedBookCard({ bookInfo, actionHint, onClick, onCatalogClick, onCommentClick, onDeleteClick, useTraditionalChinese }) {
   const bookName = useConvertedText(bookInfo.book_name, useTraditionalChinese);
   const author = useConvertedText(bookInfo.author, useTraditionalChinese);
   const abstract = useConvertedText(bookInfo.abstract ?? '', useTraditionalChinese);
@@ -157,6 +159,17 @@ function SavedBookCard({ bookInfo, actionHint, onClick, onCatalogClick, onDelete
         >
           <List />
         </ActionButton>
+        {onCommentClick && (
+          <ActionButton
+            type="button"
+            $variant="comment"
+            onClick={onCommentClick}
+            title="評論"
+            aria-label="查看評論"
+          >
+            <MessageCircle />
+          </ActionButton>
+        )}
         <ActionButton
           type="button"
           $variant="delete"

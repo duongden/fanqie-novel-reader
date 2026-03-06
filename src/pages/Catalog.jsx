@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams, Navigate, useNavigate, Link } from 'react-router-dom';
-import { Bookmark, CloudDownload, Download, Languages, RefreshCw } from 'lucide-react';
+import { Bookmark, CloudDownload, Download, Languages, MessageCircle, RefreshCw } from 'lucide-react';
 import Menu from '../components/Menu';
 import Info from '../components/Info';
 import Error from '../components/Error';
@@ -11,7 +11,7 @@ import HomeButton from '../components/HomeButton';
 import { IconButton } from '../components/IconButton';
 import styled from 'styled-components';
 import { RightActions } from '../components/common/ActionBar';
-import { buildChapterUrl } from '../utils/navigation';
+import { buildChapterUrl, buildCommentsUrl } from '../utils/navigation';
 
 const CatalogWrapper = styled.div`
   min-height: 100dvh;
@@ -146,6 +146,13 @@ function Catalog() {
             style={downloadingAll ? { color: 'var(--accent-color)' } : undefined}
           >
             <CloudDownload size={20} strokeWidth={2.5} />
+          </IconButton>
+          <IconButton
+            type="button"
+            title="評論"
+            onClick={() => navigate(buildCommentsUrl(bookId))}
+          >
+            <MessageCircle size={20} strokeWidth={2.5} />
           </IconButton>
           <IconButton
             type="button"

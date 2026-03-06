@@ -10,6 +10,12 @@ export function buildCatalogUrl(bookId) {
   return `/catalog?bookId=${bookId}`;
 }
 
+export function buildCommentsUrl(bookId, page = 1) {
+  const params = new URLSearchParams({ bookId });
+  if (page > 1) params.set('page', String(page));
+  return `/comments?${params.toString()}`;
+}
+
 export function buildChapterOrCatalogUrl(bookId, lastReadItemId = null) {
   return lastReadItemId 
     ? buildChapterUrl(lastReadItemId, bookId)

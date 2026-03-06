@@ -48,7 +48,7 @@ function getBookInfoFromCache(bookId) {
   }
 }
 
-function ReadingHistory({ refreshKey, onBookClick, onCatalogClick, onDeleteClick, useTraditionalChinese }) {
+function ReadingHistory({ refreshKey, onBookClick, onCatalogClick, onCommentClick, onDeleteClick, useTraditionalChinese }) {
   const readingHistory = getReadingHistory();
 
   if (readingHistory.length === 0) {
@@ -72,6 +72,7 @@ function ReadingHistory({ refreshKey, onBookClick, onCatalogClick, onDeleteClick
             actionHint={actionHint}
             onClick={() => onBookClick(bookId)}
             onCatalogClick={(e) => onCatalogClick(e, bookId)}
+            onCommentClick={(e) => onCommentClick?.(e, bookId)}
             onDeleteClick={(e) => onDeleteClick(e, bookId, bookInfo)}
             useTraditionalChinese={useTraditionalChinese}
           />
