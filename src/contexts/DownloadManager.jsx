@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useCallback, useReducer, useRef } from 'react';
+import React, { createContext, useContext, useCallback, useReducer, useRef, useEffect } from 'react';
 import { fetchItem } from '../api';
 import { MAX_CONCURRENT_DOWNLOADS } from '../utils/constants';
+import { isChapterCached } from '../utils/storage';
 
 const DownloadManagerContext = createContext(null);
 
@@ -20,13 +21,29 @@ function reducer(state, action) {
           return next;
         })(),
       };
+    case 'START_DOWNLOAD_ALL':
+      return {
+        ...state,
+        downloadAllBookId: action.bookId,
+        downloadAllItemIds: action.itemIds,
+      };
+    case 'STOP_DOWNLOAD_ALL':
+      return {
+        ...state,
+        downloadAllBookId: null,
+        downloadAllItemIds: [],
+      };
     default:
       return state;
   }
 }
 
 export function DownloadManagerProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, { downloading: new Set() });
+  const [state, dispatch] = useReducer(reducer, { 
+    downloading: new Set(),
+    downloadAllBookId: null,
+    downloadAllItemIds: [],
+  });
   const queueRef = useRef([]);
   const activeCountRef = useRef(0);
 
@@ -68,10 +85,51 @@ export function DownloadManagerProvider({ children }) {
     [state.downloading]
   );
 
+  const startDownloadAll = useCallback((bookId, itemIds) => {
+    if (!bookId || !itemIds || itemIds.length === 0) return;
+    dispatch({ type: 'START_DOWNLOAD_ALL', bookId, itemIds });
+    const batch = itemIds.slice(0, MAX_CONCURRENT_DOWNLOADS);
+    batch.forEach((itemId) => addToQueue(itemId, false));
+  }, [addToQueue]);
+
+  const stopDownloadAll = useCallback(() => {
+    dispatch({ type: 'STOP_DOWNLOAD_ALL' });
+  }, []);
+
+  const isDownloadingAll = useCallback((bookId) => {
+    return state.downloadAllBookId === bookId;
+  }, [state.downloadAllBookId]);
+
+  useEffect(() => {
+    if (!state.downloadAllBookId || state.downloadAllItemIds.length === 0) return;
+
+    const checkAndDownloadNext = () => {
+      const uncachedItems = state.downloadAllItemIds.filter((id) => !isChapterCached(id));
+      
+      if (uncachedItems.length === 0) {
+        dispatch({ type: 'STOP_DOWNLOAD_ALL' });
+        return;
+      }
+
+      const currentlyDownloading = uncachedItems.some((id) => state.downloading.has(id));
+      
+      if (!currentlyDownloading) {
+        const batch = uncachedItems.slice(0, MAX_CONCURRENT_DOWNLOADS);
+        batch.forEach((itemId) => addToQueue(itemId, false));
+      }
+    };
+
+    const interval = setInterval(checkAndDownloadNext, 500);
+    return () => clearInterval(interval);
+  }, [state.downloadAllBookId, state.downloadAllItemIds, state.downloading, addToQueue]);
+
   const value = {
     downloading: state.downloading,
     addToQueue,
     isDownloading,
+    startDownloadAll,
+    stopDownloadAll,
+    isDownloadingAll,
   };
 
   return (

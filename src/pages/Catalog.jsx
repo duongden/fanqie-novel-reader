@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams, Navigate, useNavigate, Link } from 'react-router-dom';
-import { Bookmark, Download, Languages, RefreshCw } from 'lucide-react';
+import { Bookmark, Download, DownloadCloud, Languages, RefreshCw } from 'lucide-react';
 import Menu from '../components/Menu';
 import Info from '../components/Info';
 import Error from '../components/Error';
@@ -78,7 +78,7 @@ function Catalog() {
   const lastReadItemId = bookId ? getLastReadChapter(bookId) : null;
   
   const { error, bookInfo, loadBook } = useBookLoader(bookId);
-  const { addToQueue, isDownloading } = useDownloadManager();
+  const { addToQueue, isDownloading, startDownloadAll, stopDownloadAll, isDownloadingAll } = useDownloadManager();
   const [sortOrder, setSortOrder] = useState('ascending');
   const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
 
@@ -87,10 +87,19 @@ function Catalog() {
   const hasUncachedChapters = uncachedItemIds.length > 0;
   const anyDownloading = uncachedItemIds.some((id) => isDownloading(id));
   const batchSize = Math.min(MAX_CONCURRENT_DOWNLOADS, uncachedItemIds.length);
+  const downloadingAll = isDownloadingAll(bookId);
 
   const handleBatchDownload = () => {
     const batch = uncachedItemIds.slice(0, MAX_CONCURRENT_DOWNLOADS);
     batch.forEach((itemId) => addToQueue(itemId, false));
+  };
+
+  const handleDownloadAll = () => {
+    if (downloadingAll) {
+      stopDownloadAll();
+    } else {
+      startDownloadAll(bookId, uncachedItemIds);
+    }
   };
 
   const handleSortChange = () => {
@@ -125,9 +134,18 @@ function Catalog() {
             type="button"
             title={hasUncachedChapters ? `批次下載 (${batchSize} 章)` : '全部已下載'}
             onClick={handleBatchDownload}
-            disabled={!hasUncachedChapters || anyDownloading}
+            disabled={!hasUncachedChapters || anyDownloading || downloadingAll}
           >
             <Download size={20} strokeWidth={2.5} />
+          </IconButton>
+          <IconButton
+            type="button"
+            title={downloadingAll ? '停止下載全部' : hasUncachedChapters ? `下載全部 (${uncachedItemIds.length} 章)` : '全部已下載'}
+            onClick={handleDownloadAll}
+            disabled={!hasUncachedChapters && !downloadingAll}
+            style={downloadingAll ? { color: 'var(--accent-color)' } : undefined}
+          >
+            <DownloadCloud size={20} strokeWidth={2.5} />
           </IconButton>
           <IconButton
             type="button"
