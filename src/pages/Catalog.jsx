@@ -9,6 +9,7 @@ import Sort from '../components/Sort';
 import LoadingPage from '../components/LoadingPage';
 import HomeButton from '../components/HomeButton';
 import { IconButton } from '../components/IconButton';
+import ResponsiveTools from '../components/ResponsiveTools';
 import styled from 'styled-components';
 import { RightActions } from '../components/common/ActionBar';
 import { buildChapterUrl, buildCommentsUrl } from '../utils/navigation';
@@ -121,6 +122,7 @@ function Catalog() {
       <BackBar>
         <SiteTitle to="/">番茄小說閱讀器</SiteTitle>
         <RightActions>
+          <ResponsiveTools panelTitle="工具">
           <HomeButton />
           <IconButton
             type="button"
@@ -170,6 +172,7 @@ function Catalog() {
               <Bookmark size={20} strokeWidth={2} />
             </IconButton>
           )}
+          </ResponsiveTools>
         </RightActions>
       </BackBar>
       )}

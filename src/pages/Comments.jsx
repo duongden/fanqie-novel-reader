@@ -10,6 +10,7 @@ import LoadingPage from '../components/LoadingPage';
 import HomeButton from '../components/HomeButton';
 import MyHead from '../components/MyHead';
 import { IconButton } from '../components/IconButton';
+import ResponsiveTools from '../components/ResponsiveTools';
 import { RightActions } from '../components/common/ActionBar';
 import { useTraditionalChineseToggle } from '../hooks/useTraditionalChineseToggle';
 import { useConvertedText } from '../hooks/useConvertedText';
@@ -279,6 +280,7 @@ function Comments() {
       <BackBar>
         <SiteTitle to="/">番茄小說閱讀器</SiteTitle>
         <RightActions>
+          <ResponsiveTools panelTitle="工具">
           <HomeButton />
           <IconButton
             type="button"
@@ -302,6 +304,7 @@ function Comments() {
           >
             <List size={20} strokeWidth={2.5} />
           </IconButton>
+          </ResponsiveTools>
         </RightActions>
       </BackBar>
         <PageContent>
