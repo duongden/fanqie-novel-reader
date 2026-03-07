@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BookOpen } from 'lucide-react';
 import SavedBookCard from './SavedBookCard';
-import { getLastReadChapter, getReadingHistory, safeGetJSON } from '../utils/storage';
-import { DIRECTORY_CACHE_KEY, DETAIL_CACHE_KEY } from '../utils/constants';
-import { cleanAbstract } from '../utils/text';
+import { getLastReadChapter, getReadingHistory } from '../utils/storage';
 
 const Section = styled.section`
   display: flex;
@@ -31,25 +29,6 @@ const SectionTitle = styled.h2`
   }
 `;
 
-function getBookInfoFromCache(bookId) {
-  try {
-    const detail = safeGetJSON(`${DETAIL_CACHE_KEY}-${bookId}`);
-    return {
-      chapterCount: detail?.content_chapter_number || null,
-      book_name: detail?.book_name || `書籍 ${bookId.slice(0, 8)}`,
-      author: detail?.author || '未知作者',
-      abstract: cleanAbstract(detail?.abstract) || null,
-      audio_thumb_uri: detail?.audio_thumb_uri || null,
-      score: detail?.score || null,
-      tags: detail?.tags || null,
-      category: detail?.category || null,
-      sub_info: detail?.sub_info || null,
-    };
-  } catch {
-    return null;
-  }
-}
-
 function ReadingHistory({ refreshKey, onBookClick, onCatalogClick, onCommentClick, onDeleteClick, useTraditionalChinese }) {
   const readingHistory = getReadingHistory();
 
@@ -61,21 +40,18 @@ function ReadingHistory({ refreshKey, onBookClick, onCatalogClick, onCommentClic
     <Section key={refreshKey}>
       <SectionTitle><BookOpen /> 閱讀歷史</SectionTitle>
       {readingHistory.map(({ bookId }) => {
-        const bookInfo = getBookInfoFromCache(bookId);
-        if (!bookInfo) return null;
-
         const lastReadItemId = getLastReadChapter(bookId);
         const actionHint = lastReadItemId ? '繼續閱讀 →' : '前往目錄 →';
 
         return (
           <SavedBookCard
             key={bookId}
-            bookInfo={bookInfo}
+            bookId={bookId}
             actionHint={actionHint}
             onClick={() => onBookClick(bookId)}
             onCatalogClick={(e) => onCatalogClick(e, bookId)}
             onCommentClick={(e) => onCommentClick?.(e, bookId)}
-            onDeleteClick={(e) => onDeleteClick(e, bookId, bookInfo)}
+            onDeleteClick={onDeleteClick}
             useTraditionalChinese={useTraditionalChinese}
           />
         );

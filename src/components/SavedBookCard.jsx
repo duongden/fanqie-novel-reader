@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { List, MessageCircle, Trash2 } from 'lucide-react';
 import Info from './Info';
+import { useBookLoader } from '../hooks/useBookLoader';
 
 const Card = styled.div`
   display: flex;
@@ -90,7 +91,11 @@ const ActionButton = styled.button`
   }
 `;
 
-function SavedBookCard({ bookInfo, actionHint, onClick, onCatalogClick, onCommentClick, onDeleteClick, useTraditionalChinese }) {
+function SavedBookCard({ bookId, actionHint, onClick, onCatalogClick, onCommentClick, onDeleteClick, useTraditionalChinese }) {
+  const { bookInfo } = useBookLoader(bookId, { detailOnly: true });
+
+  if (!bookInfo) return null;
+
   return (
     <Card onClick={onClick}>
       <ActionButtons>
@@ -117,7 +122,7 @@ function SavedBookCard({ bookInfo, actionHint, onClick, onCatalogClick, onCommen
         <ActionButton
           type="button"
           $variant="delete"
-          onClick={(e) => { e.stopPropagation(); onDeleteClick(e); }}
+          onClick={(e) => { e.stopPropagation(); onDeleteClick(e, bookId, bookInfo); }}
           title="刪除此書的本地資料"
           aria-label="刪除此書的本地資料"
         >
@@ -128,7 +133,6 @@ function SavedBookCard({ bookInfo, actionHint, onClick, onCatalogClick, onCommen
         bookInfo={bookInfo}
         useTraditionalChinese={useTraditionalChinese}
         variant="compact"
-        chapterCount={bookInfo.chapterCount}
       />
       <div className="action-hint">{actionHint}</div>
     </Card>

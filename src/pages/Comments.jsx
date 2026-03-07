@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, Navigate, useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Languages, List, RefreshCw } from 'lucide-react';
 import styled from 'styled-components';
-import { fetchComments, fetchBookDetail } from '../api';
+import { fetchComments } from '../api';
+import { useBookLoader } from '../hooks/useBookLoader';
 import { buildCatalogUrl } from '../utils/navigation';
 import Error from '../components/Error';
 import Info from '../components/Info';
@@ -205,34 +206,25 @@ function Comments() {
   const page = Math.max(1, pageParam);
   const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
 
+  const { error: bookError, bookInfo } = useBookLoader(bookId, { detailOnly: true });
   const [data, setData] = useState(null);
-  const [bookDetail, setBookDetail] = useState(null);
-  const [error, setError] = useState(null);
+  const [commentsError, setCommentsError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const offset = (page - 1) * COMMENTS_PER_PAGE + 1;
   const innerData = data?.data ?? {};
+  const error = bookError || commentsError;
 
   useEffect(() => {
     if (!bookId) return;
 
     setLoading(true);
-    setError(null);
-    Promise.all([
-      fetchComments(bookId, { count: COMMENTS_PER_PAGE, offset }),
-      fetchBookDetail(bookId).catch(() => null),
-    ])
-      .then(([commentsRes, detail]) => {
-        setData(commentsRes);
-        setBookDetail(detail);
-      })
-      .catch((err) => {
-        setError(err?.message || 'Failed to fetch comments');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    setCommentsError(null);
+    fetchComments(bookId, { count: COMMENTS_PER_PAGE, offset })
+      .then((res) => setData(res))
+      .catch((err) => setCommentsError(err?.message || 'Failed to fetch comments'))
+      .finally(() => setLoading(false));
   }, [bookId, offset, refreshKey]);
 
   const comments = innerData.comment ?? [];
@@ -272,7 +264,7 @@ function Comments() {
 
   return (
     <CommentsWrapper>
-      <MyHead bookInfo={bookDetail ? { book_info: bookDetail } : undefined} />
+      <MyHead bookInfo={bookInfo} />
       {loading ? (
         <LoadingPage onAbort={() => navigate(buildCatalogUrl(bookId))} />
       ) : (
@@ -308,9 +300,9 @@ function Comments() {
         </RightActions>
       </BackBar>
         <PageContent>
-          {bookDetail && (
+          {bookInfo && (
             <Info
-              bookInfo={bookDetail}
+              bookInfo={bookInfo}
               useTraditionalChinese={useTraditionalChinese}
             />
           )}
@@ -328,7 +320,7 @@ function Comments() {
             <EmptyState>暫無評論</EmptyState>
           ) : (
             <>
-              {!bookDetail && (commentCnt > 0 || context) && (
+              {!bookInfo && (commentCnt > 0 || context) && (
                 <CommentStats style={{ marginBottom: 16 }}>
                   {commentCnt > 0 && <span>共 {commentCnt} 則評論</span>}
                   {context && <span> · {convertedContext}</span>}
@@ -347,7 +339,9 @@ function Comments() {
                     <CommentItem key={item.comment_id ?? idx}>
                       <CommentHeader>
                         <CommentUser>{convertedUser}</CommentUser>
-                        {score && <CommentScore>評分: {score}</CommentScore>}
+                        {(score !== undefined && score !== null && score !== '') && (
+                        <CommentScore>評分: {score === '0' || score === 0 ? '暫無' : score}</CommentScore>
+                      )}
                       </CommentHeader>
                       <CommentText>{convertedText}</CommentText>
                     </CommentItem>

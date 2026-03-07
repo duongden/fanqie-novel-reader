@@ -1,22 +1,24 @@
 import { useState, useCallback, useEffect } from 'react';
-import { fetchBookWithDetail } from '../utils/api-helpers';
+import { fetchBookDetailAndDirectory } from '../utils/api-helpers';
+import { fetchBookDetail } from '../api';
+import { normalizeBookInfo } from '../utils/bookInfo';
 import { formatErrorMessage } from '../utils/errors';
 
-export function useBookLoader(bookId) {
+export function useBookLoader(bookId, { detailOnly = false } = {}) {
   const [error, setError] = useState(null);
   const [bookInfo, setBookInfo] = useState(null);
 
   const loadBook = useCallback((forceRefresh = false) => {
-    if (!bookId) return;
-    
+    if (!bookId || detailOnly) return;
+
     if (forceRefresh) {
       setError(null);
       setBookInfo(null);
     }
 
-    fetchBookWithDetail(bookId, { forceRefresh })
+    fetchBookDetailAndDirectory(bookId, { forceRefresh })
       .then((merged) => {
-        setBookInfo(merged);
+        setBookInfo(normalizeBookInfo(merged, bookId));
       })
       .catch((err) => {
         console.error('獲取圖書資訊失敗：', err);
@@ -26,11 +28,22 @@ export function useBookLoader(bookId) {
         );
         setError(msg);
       });
-  }, [bookId]);
+  }, [bookId, detailOnly]);
 
   useEffect(() => {
-    if (bookId) loadBook(false);
-  }, [bookId, loadBook]);
+    if (bookId && !detailOnly) loadBook(false);
+  }, [bookId, detailOnly, loadBook]);
+
+  useEffect(() => {
+    if (detailOnly && bookId) {
+      fetchBookDetail(bookId)
+        .then((detail) => {
+          const merged = { book_info: detail, item_data_list: [] };
+          setBookInfo(normalizeBookInfo(merged, bookId));
+        })
+        .catch(() => {});
+    }
+  }, [detailOnly, bookId]);
 
   return { error, bookInfo, loadBook };
 }

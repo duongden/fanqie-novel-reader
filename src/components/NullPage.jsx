@@ -86,7 +86,8 @@ function NullPage() {
 
   const handleDeleteBook = (e, bookId, bookInfo) => {
     e.stopPropagation();
-    const convertedName = maybeConvert(bookInfo?.book_name) || bookId;
+    const bookName = bookInfo?.book_info?.book_name ?? bookInfo?.book_name;
+    const convertedName = maybeConvert(bookName) || bookId;
     if (window.confirm(`確定要刪除「${convertedName}」的所有本地資料嗎？`)) {
       deleteBookData(bookId);
       setRefreshKey((k) => k + 1);

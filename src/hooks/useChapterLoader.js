@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { fetchItem } from '../api';
-import { fetchBookWithDetail } from '../utils/api-helpers';
+import { fetchBookDetailAndDirectory } from '../utils/api-helpers';
 import { buildNovelDataFromDirectory } from '../utils/chapter-helpers';
 import { setLastReadChapter } from '../utils/storage';
 import { formatErrorMessage } from '../utils/errors';
@@ -20,7 +20,7 @@ export function useChapterLoader(itemId, bookId) {
     const loadPromise = bookId
       ? Promise.all([
           fetchItem(itemId, { forceRefresh }),
-          fetchBookWithDetail(bookId, { forceRefresh: false }),
+          fetchBookDetailAndDirectory(bookId, { forceRefresh: false }),
         ]).then(([contentRes, mergedBookInfo]) => {
           const contentData = contentRes.data.data;
           const novelData = buildNovelDataFromDirectory(itemId, bookId, mergedBookInfo.item_data_list);

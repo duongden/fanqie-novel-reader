@@ -266,13 +266,13 @@ const Footer = styled.div`
   color: var(--text-color-secondary);
 `;
 
-function Info({ bookInfo, useTraditionalChinese = false, variant, footer, chapterCount: chapterCountProp }) {
+function Info({ bookInfo, useTraditionalChinese = false, variant, footer }) {
   const [showFullAbstract, setShowFullAbstract] = useState(false);
   const isMobile = useMediaQuery('(max-width: 480px)');
   
   const bookInfoData = bookInfo?.book_info || bookInfo || {};
-  const { book_name, author, audio_thumb_uri, abstract, tags, score, category, sub_info, content_chapter_number } = bookInfoData;
-  const chapterCount = chapterCountProp ?? bookInfo?.item_data_list?.length ?? content_chapter_number ?? bookInfo?.chapterCount ?? null;
+  const { book_name, author, audio_thumb_uri, abstract, tags, score, category, sub_info } = bookInfoData;
+  const chapter_count = bookInfo?.chapter_count ?? null;
 
   const convertedAbstract = useConvertedText(abstract, useTraditionalChinese);
   const convertedBookName = useConvertedText(book_name, useTraditionalChinese);
@@ -297,7 +297,7 @@ function Info({ bookInfo, useTraditionalChinese = false, variant, footer, chapte
         <CoverWrapper>
           <img src={audio_thumb_uri} alt="書籍封面" width="128" height="128" />
           <CoverMeta>
-            {chapterCount ? `共 ${chapterCount} 章節` : '暫無章節資訊'}
+            {chapter_count ? `共 ${chapter_count} 章節` : '暫無章節資訊'}
           </CoverMeta>
         </CoverWrapper>
       )}
@@ -316,10 +316,12 @@ function Info({ bookInfo, useTraditionalChinese = false, variant, footer, chapte
           {truncated}
         </Abstract>
         <MetaRow>
-          {isCompact && !audio_thumb_uri && chapterCount && (
-            <MetaTag className="meta-chapters">共 {chapterCount} 章節</MetaTag>
+          {isCompact && !audio_thumb_uri && chapter_count && (
+            <MetaTag className="meta-chapters">共 {chapter_count} 章節</MetaTag>
           )}
-          {score && <MetaTag className="meta-score">評分: {score}</MetaTag>}
+          {(score !== undefined && score !== null && score !== '') && (
+            <MetaTag className="meta-score">評分: {score === '0' || score === 0 ? '暫無' : score}</MetaTag>
+          )}
           {category && <MetaTag className="meta-category">{convertedCategory}</MetaTag>}
           {sub_info && <MetaTag className="meta-subinfo">{convertedSubInfo}</MetaTag>}
         </MetaRow>

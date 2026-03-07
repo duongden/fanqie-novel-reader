@@ -84,7 +84,7 @@ export async function fetchBookDetail(bookId, { forceRefresh = false } = {}) {
   return result;
 }
 
-export async function fetchBook(bookId, { forceRefresh = false } = {}) {
+export async function fetchBookDirectory(bookId, { forceRefresh = false } = {}) {
   if (!forceRefresh) {
     const cached = directoryCache.get(bookId);
     if (cached) {
