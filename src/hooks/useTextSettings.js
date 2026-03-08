@@ -2,6 +2,8 @@ import { useState } from 'react';
 import {
   getFontSize,
   setFontSize,
+  getFontFamily,
+  setFontFamily,
   getTextBrightness,
   setTextBrightness,
 } from '../utils/storage';
@@ -27,6 +29,17 @@ export function useFontSize() {
   };
 
   return [fontSize, handleFontSizeChange];
+}
+
+export function useFontFamily() {
+  const [fontFamily, setFontFamilyState] = useState(getFontFamily);
+
+  const handleFontFamilyChange = (value) => {
+    setFontFamily(value);
+    setFontFamilyState(value);
+  };
+
+  return [fontFamily, handleFontFamilyChange];
 }
 
 export function useTextBrightness() {

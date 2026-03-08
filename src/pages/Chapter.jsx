@@ -8,7 +8,7 @@ import Header from '../components/common/Header';
 import Loading from '../components/common/Loading';
 import PageWrapper from '../components/common/PageWrapper';
 import { useTraditionalChineseToggle } from '../hooks/useTraditionalChineseToggle';
-import { useFontSize, useTextBrightness } from '../hooks/useTextSettings';
+import { useFontSize, useFontFamily, useTextBrightness } from '../hooks/useTextSettings';
 import { useChapterLoader } from '../hooks/useChapterLoader';
 import { buildCatalogUrl } from '../utils/navigation';
 
@@ -20,6 +20,7 @@ function Chapter() {
   
   const { error, chapterData, bookInfo, loading, loadChapter } = useChapterLoader(itemId, bookId);
   const [fontSize, handleFontSizeChange] = useFontSize();
+  const [fontFamily, handleFontFamilyChange] = useFontFamily();
   const [textBrightness, handleTextBrightnessChange] = useTextBrightness();
   const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
 
@@ -58,13 +59,15 @@ function Chapter() {
                 bookInfo={bookInfo}
                 fontSize={fontSize}
                 onFontSizeChange={handleFontSizeChange}
+                fontFamily={fontFamily}
+                onFontFamilyChange={handleFontFamilyChange}
                 textBrightness={textBrightness}
                 onTextBrightnessChange={handleTextBrightnessChange}
                 useTraditionalChinese={useTraditionalChinese}
                 onTraditionalChineseToggle={handleTraditionalChineseToggle}
                 onRefresh={handleRefresh}
               />
-              <Reader chapterData={chapterData} fontSize={fontSize} textBrightness={textBrightness} />
+              <Reader chapterData={chapterData} fontSize={fontSize} fontFamily={fontFamily} textBrightness={textBrightness} />
               <BottomBar chapterData={chapterData} bookId={bookId} />
             </>
           )}

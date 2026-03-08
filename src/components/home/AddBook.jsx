@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Search, Globe, Languages } from 'lucide-react';
-import { API_OPTIONS, getApiBase, setApiBase } from '../../services/api';
+import { API_OPTIONS } from '../../utils/constants';
+import { getApiBase, setApiBase } from '../../services/api';
 import { useTraditionalChineseToggle } from '../../hooks/useTraditionalChineseToggle';
 import { parseBookIdFromInput } from '../../utils/parseBookId';
 

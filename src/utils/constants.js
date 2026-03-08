@@ -3,18 +3,36 @@ export const CHAPTER_CACHE_KEY = 'fanqie-chapter';
 export const DETAIL_CACHE_KEY = 'fanqie-detail';
 export const API_BASE_KEY = 'fanqie-api-base';
 export const READING_HISTORY_KEY = 'fanqie-readingHistory';
-export const READING_HISTORY_MAX = 50;
 export const FONT_SIZE_KEY = 'fanqie-fontSize';
+export const FONT_FAMILY_KEY = 'fanqie-fontFamily';
+export const TRADITIONAL_CHINESE_KEY = 'fanqie-traditionalChinese';
+export const TEXT_BRIGHTNESS_KEY = 'fanqie-textBrightness';
+
+export const API_OPTIONS = [
+  { id: 'bk', url: 'https://bk.yydjtc.cn', label: 'bk.yydjtc.cn' },
+  { id: 'qkfq', url: 'https://qkfqapi.vv9v.cn', label: 'qkfqapi.vv9v.cn' },
+  { id: '103', url: 'http://103.236.91.147:9999', label: '103.236.91.147:9999' },
+  { id: '101', url: 'http://101.35.133.34:5000', label: '101.35.133.34:5000' },
+];
+
+/** Chinese fonts for reader: { value: CSS font-family, label: display name } */
+export const CHINESE_FONTS = [
+  { value: 'Georgia, serif', label: '系統預設' },
+  { value: "'Noto Serif SC', serif", label: '思源宋體' },
+  { value: "'Noto Sans SC', sans-serif", label: '思源黑體' },
+  { value: "'Microsoft JhengHei', sans-serif", label: '微軟正黑體' },
+  { value: "'SimSun', serif", label: '宋體' },
+];
+
 export const FONT_SIZE_MIN = 18;
 export const FONT_SIZE_MAX = 48;
 export const FONT_SIZE_DEFAULT = 32;
 export const FONT_SIZE_STEP = 2;
-export const TRADITIONAL_CHINESE_KEY = 'fanqie-traditionalChinese';
-export const TEXT_BRIGHTNESS_KEY = 'fanqie-textBrightness';
 export const TEXT_BRIGHTNESS_MIN = 35;
 export const TEXT_BRIGHTNESS_MAX = 100;
 export const TEXT_BRIGHTNESS_DEFAULT = 55;
 export const TEXT_BRIGHTNESS_STEP = 5;
+export const READING_HISTORY_MAX = 50;
 export const MAX_CONCURRENT_DOWNLOADS = 10;
 export const REQUEST_TIMEOUT_MS = 45000;
 export const MAX_ABSTRACT_LENGTH = 180;

@@ -23,14 +23,7 @@ const ReaderWrapper = styled.div`
     margin-bottom: 1.5em;
     text-align: justify;
     letter-spacing: 0.02em;
-    font-family: 'Georgia', serif; /* Classic serif for reading comfort */
-  }
-
-  /* Fallback to sans-serif if Georgia not available */
-  @supports not (font-family: 'Georgia') {
-    p {
-      font-family: 'Inter', -apple-system, sans-serif;
-    }
+    font-family: ${(p) => p.$fontFamily ?? 'Georgia, serif'};
   }
 
   br {
@@ -38,7 +31,7 @@ const ReaderWrapper = styled.div`
   }
 `;
 
-function Reader({ chapterData, fontSize = 18, textBrightness = 90 }) {
+function Reader({ chapterData, fontSize = 18, fontFamily = 'Georgia, serif', textBrightness = 90 }) {
   if (!chapterData || !chapterData.content) return null;
 
   // Split content by newlines and wrap in <p> tags for better semantics and styling
@@ -48,7 +41,7 @@ function Reader({ chapterData, fontSize = 18, textBrightness = 90 }) {
     .filter(p => p.length > 0);
 
   return (
-    <ReaderWrapper $fontSize={fontSize} $textBrightness={textBrightness}>
+    <ReaderWrapper $fontSize={fontSize} $fontFamily={fontFamily} $textBrightness={textBrightness}>
       {paragraphs.map((text, index) => (
         <p key={index}>{text}</p>
       ))}

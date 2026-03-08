@@ -8,6 +8,8 @@ import {
   FONT_SIZE_MIN,
   FONT_SIZE_MAX,
   FONT_SIZE_DEFAULT,
+  FONT_FAMILY_KEY,
+  CHINESE_FONTS,
   TRADITIONAL_CHINESE_KEY,
   TEXT_BRIGHTNESS_KEY,
   TEXT_BRIGHTNESS_MIN,
@@ -112,6 +114,17 @@ export function getFontSize() {
 export function setFontSize(size) {
   const clamped = Math.max(FONT_SIZE_MIN, Math.min(FONT_SIZE_MAX, size));
   return safeSetItem(FONT_SIZE_KEY, String(clamped));
+}
+
+export function getFontFamily() {
+  const raw = safeGetItem(FONT_FAMILY_KEY);
+  const valid = CHINESE_FONTS.some((f) => f.value === raw);
+  return valid ? raw : CHINESE_FONTS[0].value;
+}
+
+export function setFontFamily(value) {
+  const valid = CHINESE_FONTS.some((f) => f.value === value);
+  return valid ? safeSetItem(FONT_FAMILY_KEY, value) : false;
 }
 
 export function getTextBrightness() {
