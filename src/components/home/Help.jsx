@@ -112,18 +112,26 @@ function Help() {
       <SectionTitle><InfoIcon /> 幫助指南</SectionTitle>
       <HelpGrid>
         <HelpCard>
-          <h3>1. 找到書籍</h3>
+          <h3>找到書籍</h3>
           <p>造訪 <span>番茄小說網</span> 找到您想閱讀的小說。</p>
           <a href="https://fanqienovel.com" target="_blank" rel="noopener noreferrer" className="link-button">
             前往番茄小說網
           </a>
         </HelpCard>
         <HelpCard>
-          <h3>2. 獲取 bookId</h3>
+          <h3>獲取 bookId</h3>
           <p>在小說詳情頁的 URL 中找到那一串數字：</p>
           <div className="code-box">
             .../page/<span>123456789</span>?...
           </div>
+        </HelpCard>
+        <HelpCard>
+          <h3>加入書籍</h3>
+          <p>在輸入框中輸入書籍 ID 或小說網址即可開始閱讀。</p>
+        </HelpCard>
+        <HelpCard>
+          <h3>Non-Chinese Readers?</h3>
+          <p>Use Google Translate or AI plugin in your browser to translate the page.</p>
         </HelpCard>
       </HelpGrid>
     </Section>

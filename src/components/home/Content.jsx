@@ -8,6 +8,7 @@ import { buildChapterOrCatalogUrl, buildCatalogUrl, buildCommentsUrl } from '../
 import Bookshelf from './Bookshelf';
 import AddBook from './AddBook';
 import Help from './Help';
+import NoticeBoard from './NoticeBoard';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -59,6 +60,7 @@ function Content() {
 
   return (
     <ContentWrapper>
+      <NoticeBoard />
       <Bookshelf
         refreshKey={refreshKey}
         onBookClick={handleBookClick}

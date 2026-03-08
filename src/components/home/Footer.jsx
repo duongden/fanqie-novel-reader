@@ -11,7 +11,14 @@ const FooterWrapper = styled.footer`
 `;
 
 function Footer() {
-  return <FooterWrapper>FQNR · 僅供學習交流使用</FooterWrapper>;
+  return (
+    <FooterWrapper>
+      FQNR · 僅供學習交流使用 ·{' '}
+      <a href="https://github.com/denniemok/fanqie-novel-reader" target="_blank" rel="noopener noreferrer">
+        GitHub
+      </a>
+    </FooterWrapper>
+  );
 }
 
 export default Footer;

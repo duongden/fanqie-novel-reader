@@ -36,9 +36,8 @@ function Header() {
   return (
     <HeaderWrapper>
       <Title>番茄小說閱讀器</Title>
-      <Subtitle>本地儲存、免安裝、免註冊、無廣告</Subtitle>
+      <Subtitle>本地儲存、支援多章節下載與 TXT 匯出</Subtitle>
       <Subtitle>無需中國大陸手機號即可在線存取番茄小說</Subtitle>
-      <Subtitle>支援多章節下載與 TXT 匯出</Subtitle>
     </HeaderWrapper>
   );
 }
