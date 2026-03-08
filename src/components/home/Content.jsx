@@ -13,50 +13,13 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  padding: 40px 24px;
-  padding-top: calc(40px + env(safe-area-inset-top));
-  padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  padding: calc(40px + env(safe-area-inset-top)) 24px calc(40px + env(safe-area-inset-bottom));
   max-width: 800px;
   margin: 0 auto;
 
   @media (max-width: 480px) {
-    padding: 24px 16px;
-    padding-top: calc(24px + env(safe-area-inset-top));
-    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    padding: calc(24px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
   }
-`;
-
-const Header = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 48px;
-  gap: 16px;
-`;
-
-const Title = styled.h1`
-  font-size: 32px;
-  font-weight: 800;
-  margin: 0;
-  background: linear-gradient(135deg, var(--accent-color), #ffcc80);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.02em;
-
-  @media (max-width: 480px) {
-    font-size: 26px;
-  }
-`;
-
-const Subtitle = styled.p`
-  font-size: 16px;
-  color: var(--text-color-secondary);
-  max-width: 400px;
-  line-height: 0.8;
-  margin: 0;
 `;
 
 function Content() {
@@ -96,13 +59,6 @@ function Content() {
 
   return (
     <ContentWrapper>
-      <Header>
-        <Title>番茄小說閱讀器</Title>
-        <Subtitle>本地儲存、免安裝、免註冊、無廣告</Subtitle>
-        <Subtitle>無需中國大陸手機號即可在線存取番茄小說</Subtitle>
-        <Subtitle>支援多章節下載與 TXT 匯出</Subtitle>
-      </Header>
-
       <Bookshelf
         refreshKey={refreshKey}
         onBookClick={handleBookClick}

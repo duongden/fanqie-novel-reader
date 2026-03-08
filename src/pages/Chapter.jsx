@@ -4,7 +4,6 @@ import TopBar from '../components/chapter/TopBar';
 import BottomBar from '../components/chapter/BottomBar';
 import Reader from '../components/chapter/Reader';
 import Error from '../components/common/Error';
-import Header from '../components/common/Header';
 import Loading from '../components/common/Loading';
 import PageWrapper from '../components/common/PageWrapper';
 import { useTraditionalChineseToggle } from '../hooks/useTraditionalChineseToggle';
@@ -51,7 +50,6 @@ function Chapter() {
         <Loading onAbort={() => navigate('/')} />
       ) : (
         <>
-          <Header bookInfo={bookInfo} chapterData={chapterData} />
           {chapterData && (
             <>
               <TopBar

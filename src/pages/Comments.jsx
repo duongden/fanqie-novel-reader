@@ -6,7 +6,6 @@ import { buildCatalogUrl } from '../utils/navigation';
 import { formatErrorMessage } from '../utils/errors';
 import Error from '../components/common/Error';
 import Loading from '../components/common/Loading';
-import Header from '../components/common/Header';
 import PageWrapper from '../components/common/PageWrapper';
 import TopBar from '../components/comments/TopBar';
 import Content from '../components/comments/Content';
@@ -89,7 +88,6 @@ function Comments() {
 
   return (
     <PageWrapper>
-      <Header bookInfo={bookInfo} />
       {loading ? (
         <Loading onAbort={() => navigate(buildCatalogUrl(bookId))} />
       ) : (

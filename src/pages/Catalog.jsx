@@ -3,7 +3,6 @@ import { useSearchParams, Navigate, useNavigate } from 'react-router-dom';
 import Menu from '../components/catalog/Menu';
 import Info from '../components/book/Info';
 import Error from '../components/common/Error';
-import Header from '../components/common/Header';
 import Loading from '../components/common/Loading';
 import PageWrapper from '../components/common/PageWrapper';
 import { useToast } from '../contexts/ToastContext';
@@ -107,7 +106,6 @@ function Catalog() {
 
   return (
     <PageWrapper>
-      <Header bookInfo={bookInfo} />
       {bookInfo && (
         <TopBar
           bookId={bookId}

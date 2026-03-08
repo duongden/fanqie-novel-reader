@@ -1,7 +1,7 @@
 import { useSearchParams, Navigate } from 'react-router-dom';
-import Header from '../components/common/Header';
 import Content from '../components/home/Content';
 import Footer from '../components/home/Footer';
+import Header from '../components/home/Header';
 import { getLastReadChapter } from '../utils/storage';
 import { buildChapterOrCatalogUrl } from '../utils/navigation';
 
