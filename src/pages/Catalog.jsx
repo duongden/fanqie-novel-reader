@@ -33,13 +33,17 @@ function Catalog() {
   const lastReadItemId = bookId ? getLastReadChapter(bookId) : null;
   
   const { error, bookInfo, loadBook } = useBookLoader(bookId);
-  const { addToQueue, isDownloading, startDownloadAll, stopDownloadAll, isDownloadingAll } = useDownloadManager();
+  const { addToQueue, isDownloading, startDownloadAll, stopDownloadAll, isDownloadingAll, completedDownloads } = useDownloadManager();
   const { showToast } = useToast();
   const [sortOrder, setSortOrder] = useState('ascending');
   const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
   const [, setCatalogRefresh] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const onChapterDeleted = () => setCatalogRefresh((k) => k + 1);
+  const [uncachedItemIds, setUncachedItemIds] = useState([]);
+  const onChapterDeleted = (itemId) => {
+    if (itemId) setUncachedItemIds((prev) => prev.filter((id) => id !== itemId));
+    setCatalogRefresh((k) => k + 1);
+  };
 
   useEffect(() => {
     setCurrentPage(0);
@@ -50,12 +54,20 @@ function Catalog() {
   const totalPages = Math.max(1, Math.ceil(totalChapters / CHAPTERS_PER_PAGE));
 
   useEffect(() => {
+    const list = bookInfo?.item_data_list;
+    if (!list?.length) {
+      setUncachedItemIds((prev) => (prev.length ? [] : prev));
+      return;
+    }
+    Promise.all(list.map((item) => isChapterCached(item.item_id).then((cached) => ({ itemId: item.item_id, cached }))))
+      .then((results) => setUncachedItemIds(results.filter((r) => !r.cached).map((r) => r.itemId)));
+  }, [bookInfo, completedDownloads]);
+
+  useEffect(() => {
     if (currentPage >= totalPages) {
       setCurrentPage(Math.max(0, totalPages - 1));
     }
   }, [currentPage, totalPages]);
-
-  const uncachedItemIds = itemDataList.filter((item) => !isChapterCached(item.item_id)).map((item) => item.item_id);
   const hasUncachedChapters = uncachedItemIds.length > 0;
   const anyDownloading = uncachedItemIds.some((id) => isDownloading(id));
   const batchSize = Math.min(MAX_CONCURRENT_DOWNLOADS, uncachedItemIds.length);
@@ -82,10 +94,10 @@ function Catalog() {
   const canGoPrev = currentPage > 0;
   const canGoNext = currentPage < totalPages - 1;
 
-  const handleExportTxt = () => {
+  const handleExportTxt = async () => {
     const list = bookInfo?.item_data_list ?? [];
     const sorted = sortChaptersByNumber(list, sortOrder);
-    const result = exportBookToTxt({
+    const result = await exportBookToTxt({
       bookId,
       bookInfo,
       itemDataList: sorted,

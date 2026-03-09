@@ -1,9 +1,6 @@
-import { CHAPTER_CACHE_KEY } from './constants';
-import { createCacheHelpers } from './cache';
+import { chapterCache } from './cache';
 import { maybeConvert } from './zh-convert';
 import { getChapterTitle } from './chapter-helpers';
-
-const chapterCache = createCacheHelpers(CHAPTER_CACHE_KEY);
 
 /**
  * Builds and downloads a book_id.txt file with book metadata and cached chapter content.
@@ -12,9 +9,9 @@ const chapterCache = createCacheHelpers(CHAPTER_CACHE_KEY);
  * @param {Object} params.bookInfo - Book info (book_info.original_book_name, author, abstract)
  * @param {Array<{item_id: string, title: string}>} params.itemDataList - Chapter list
  * @param {boolean} [params.useTraditionalChinese] - Whether to convert content to traditional Chinese
- * @returns {{ exportedCount: number }} Number of chapters exported; 0 if none were cached
+ * @returns {Promise<{ exportedCount: number }>} Number of chapters exported; 0 if none were cached
  */
-export function exportBookToTxt({ bookId, bookInfo, itemDataList, useTraditionalChinese = false }) {
+export async function exportBookToTxt({ bookId, bookInfo, itemDataList, useTraditionalChinese = false }) {
   if (!bookId || !bookInfo || !itemDataList?.length) return { exportedCount: 0 };
 
   const bookInfoData = bookInfo?.book_info || bookInfo;
@@ -37,7 +34,7 @@ export function exportBookToTxt({ bookId, bookInfo, itemDataList, useTraditional
 
   let exportedCount = 0;
   for (const item of itemDataList) {
-    const content = chapterCache.get(item.item_id);
+    const content = await chapterCache.get(item.item_id);
     if (content == null || typeof content !== 'string') continue;
 
     const converted = maybeConvert(content, useTraditionalChinese);

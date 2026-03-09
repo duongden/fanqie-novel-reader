@@ -119,19 +119,19 @@ function Help() {
           </a>
         </HelpCard>
         <HelpCard>
-          <h3>獲取 bookId</h3>
-          <p>在小說詳情頁的 URL 中找到那一串數字：</p>
+          <h3>獲取書籍 ID</h3>
+          <p>在小說詳情頁的網址中找到那一串數字：</p>
           <div className="code-box">
             .../page/<span>123456789</span>?...
           </div>
         </HelpCard>
         <HelpCard>
           <h3>加入書籍</h3>
-          <p>在輸入框中輸入書籍 ID 或小說網址即可開始閱讀。</p>
+          <p>在輸入框中輸入 <span>書籍 ID</span> 或 <span>小說網址</span> 即可開始閱讀。</p>
         </HelpCard>
         <HelpCard>
-          <h3>Non-Chinese Readers?</h3>
-          <p>Use Google Translate or AI translation plugins in your browser to translate this site.</p>
+          <h3>Need MTL ?</h3>
+          <p>Use <span>Google Translate</span> or AI translation plugins in your browser to translate this site.</p>
         </HelpCard>
       </HelpGrid>
     </Section>

@@ -144,12 +144,16 @@ function MenuItemLink({ item, bookId, useTraditionalChinese, isDownloading }) {
 }
 
 function ChapterActions({ item, onChapterDeleted }) {
-  const { addToQueue, isDownloading } = useDownloadManager();
+  const { addToQueue, isDownloading, completedDownloads } = useDownloadManager();
   const itemId = item.item_id;
   const [deleted, setDeleted] = useState(false);
+  const [actualCached, setActualCached] = useState(false);
   const downloading = isDownloading(itemId);
-  const actualCached = isChapterCached(itemId);
   const cached = actualCached && !deleted;
+
+  useEffect(() => {
+    isChapterCached(itemId).then(setActualCached);
+  }, [itemId, completedDownloads]);
 
   useEffect(() => {
     if (actualCached && deleted) {
@@ -180,11 +184,12 @@ function ChapterActions({ item, onChapterDeleted }) {
     addToQueue(itemId, cached);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (downloading) return;
-    deleteChapter(itemId);
+    await deleteChapter(itemId);
+    setActualCached(false);
     setDeleted(true);
-    onChapterDeleted?.();
+    onChapterDeleted?.(itemId);
   };
 
   return (

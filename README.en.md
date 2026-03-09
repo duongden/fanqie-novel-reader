@@ -48,12 +48,13 @@ A minimalist web-based reader designed for Fanqie Novel (番茄小說) lovers wh
 
 ## ✨ Features
 
-- **🚀 Smart Parsing** — Directly paste a **Fanqie URL**; no need to manually extract the Book ID.
-- **🌓 Eye-Care Design** — Fully customizable fonts, brightness, and themes for long-duration reading.
-- **📦 Offline Reading** — Robust download manager supporting chapter preloading and local storage.
+- **🚀 Smart Parsing** — Directly paste a **Fanqie Book URL**. No need to manually extract the Book ID.
+- **🌓 Eye-Care Design** — Fully customisable fonts type, size, and brightness for long-duration reading.
+- **📦 Download Manager** — Supports high-speed background preloading. No more waiting for large novels to load chapter by chapter.
 - **📑 Export to TXT** — Export your favorite novels into standard TXT format with one click.
 - **💬 Community Sync** — Access real-time ratings and trending comments from the community.
-- **💾 Auto-Save** — Your reading progress and shelf are automatically saved via browser cache.
+- **💾 Local Storage** — Your reading progress and shelf are automatically saved via browser cache.
+- **📱 PWA Support** — Install it to your desktop or mobile home screen to access your favorite books even when offline.
 
 <br>
 

@@ -1,3 +1,4 @@
+export const INDEXEDDB_STORE_NAME = 'fanqie-database';
 export const DIRECTORY_CACHE_KEY = 'fanqie-directory';
 export const CHAPTER_CACHE_KEY = 'fanqie-chapter';
 export const DETAIL_CACHE_KEY = 'fanqie-detail';

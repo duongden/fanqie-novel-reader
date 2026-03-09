@@ -48,12 +48,12 @@ function Content() {
     navigate(buildCommentsUrl(bookId));
   };
 
-  const handleDeleteBook = (e, bookId, bookInfo) => {
+  const handleDeleteBook = async (e, bookId, bookInfo) => {
     e.stopPropagation();
     const bookName = bookInfo?.book_info?.original_book_name;
     const convertedName = maybeConvert(bookName, useTraditionalChinese) || bookId;
     if (window.confirm(`確定要刪除「${convertedName}」的所有本地資料嗎？`)) {
-      deleteBookData(bookId);
+      await deleteBookData(bookId);
       setRefreshKey((k) => k + 1);
     }
   };

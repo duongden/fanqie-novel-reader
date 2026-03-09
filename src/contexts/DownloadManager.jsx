@@ -112,17 +112,19 @@ export function DownloadManagerProvider({ children }) {
   useEffect(() => {
     if (!state.downloadAllBookId || state.downloadAllItemIds.length === 0) return;
 
-    const uncachedItems = state.downloadAllItemIds.filter((id) => !isChapterCached(id));
-    if (uncachedItems.length === 0) {
-      dispatch({ type: 'STOP_DOWNLOAD_ALL' });
-      return;
-    }
-
-    const currentlyDownloading = uncachedItems.some((id) => state.downloading.has(id));
-    if (!currentlyDownloading) {
-      const batch = uncachedItems.slice(0, MAX_CONCURRENT_DOWNLOADS);
-      batch.forEach((itemId) => addToQueue(itemId, false));
-    }
+    Promise.all(state.downloadAllItemIds.map((id) => isChapterCached(id).then((cached) => ({ id, cached }))))
+      .then((results) => {
+        const uncachedItems = results.filter((r) => !r.cached).map((r) => r.id);
+        if (uncachedItems.length === 0) {
+          dispatch({ type: 'STOP_DOWNLOAD_ALL' });
+          return;
+        }
+        const currentlyDownloading = uncachedItems.some((id) => state.downloading.has(id));
+        if (!currentlyDownloading) {
+          const batch = uncachedItems.slice(0, MAX_CONCURRENT_DOWNLOADS);
+          batch.forEach((itemId) => addToQueue(itemId, false));
+        }
+      });
   }, [state.downloadAllBookId, state.downloadAllItemIds, state.downloading, addToQueue]);
 
   const value = {

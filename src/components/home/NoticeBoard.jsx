@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Megaphone } from 'lucide-react';
+import { GrayButton } from '../common/GrayButton';
+import { useToast } from '../../contexts/ToastContext';
+import { migrateCacheFromLocalStorage } from '../../utils/migrate';
 
 const Section = styled.section`
   display: flex;
@@ -38,12 +41,31 @@ const NoticeCard = styled.div`
 `;
 
 function NoticeBoard() {
+  const [migrating, setMigrating] = useState(false);
+  const { showToast } = useToast();
+
+  const handleMigrate = async () => {
+    setMigrating(true);
+    try {
+      const { migrated } = await migrateCacheFromLocalStorage();
+      showToast(migrated > 0 ? `已遷移 ${migrated} 筆快取至 IndexedDB` : '沒有需要遷移的資料');
+    } catch (err) {
+      showToast('遷移失敗，請稍後再試', 3500);
+    } finally {
+      setMigrating(false);
+    }
+  };
+
   return (
     <Section>
       <SectionTitle><Megaphone /> 公告</SectionTitle>
       <NoticeCard>
-        2026-03-08 新增 API 來源、字體選擇功能。<br></br>
-        For foreign readers, use Google Translate or AI translation plugins in your browser to translate this site.
+        2026-03-09 章節快取已升級至 IndexedDB，不再受 localStorage 容量限制，可下載更多章節。
+        若您之前使用過本應用，請點擊下方按鈕遷移舊資料。<br></br>
+        <GrayButton type="button" onClick={handleMigrate} disabled={migrating} style={{ marginTop: 12, opacity: migrating ? 0.6 : 1 }}>
+          {migrating ? '遷移中…' : '遷移 localStorage 快取至 IndexedDB'}
+        </GrayButton>
+        <br></br>
       </NoticeCard>
     </Section>
   );

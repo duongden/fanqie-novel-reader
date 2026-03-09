@@ -1,6 +1,6 @@
-import { API_BASE_KEY, API_OPTIONS, DIRECTORY_CACHE_KEY, CHAPTER_CACHE_KEY, DETAIL_CACHE_KEY, REQUEST_TIMEOUT_MS } from '../utils/constants';
+import { API_BASE_KEY, API_OPTIONS, REQUEST_TIMEOUT_MS } from '../utils/constants';
 import { safeGetItem, safeSetItem, setLastReadChapter } from '../utils/storage';
-import { createCacheHelpers } from '../utils/cache';
+import { directoryCache, chapterCache, detailCache } from '../utils/cache';
 import { maybeConvert } from '../utils/zh-convert';
 
 const DEFAULT_API_BASE = API_OPTIONS[0].value;
@@ -72,13 +72,9 @@ function stripHtmlTagsAndNewlines(html) {
   return filteredText;
 }
 
-const directoryCache = createCacheHelpers(DIRECTORY_CACHE_KEY);
-const chapterCache = createCacheHelpers(CHAPTER_CACHE_KEY);
-const detailCache = createCacheHelpers(DETAIL_CACHE_KEY);
-
 export async function fetchBookDetail(bookId, { forceRefresh = false, signal } = {}) {
   if (!forceRefresh) {
-    const cached = detailCache.get(bookId);
+    const cached = await detailCache.get(bookId);
     if (cached) return cached;
   }
 
@@ -101,13 +97,13 @@ export async function fetchBookDetail(bookId, { forceRefresh = false, signal } =
     creation_status: d.creation_status || null,
   };
   
-  detailCache.set(bookId, result);
+  await detailCache.set(bookId, result);
   return result;
 }
 
 export async function fetchBookDirectory(bookId, { forceRefresh = false, signal } = {}) {
   if (!forceRefresh) {
-    const cached = directoryCache.get(bookId);
+    const cached = await directoryCache.get(bookId);
     if (cached) {
       setLastReadChapter(bookId, null);
       return { data: { data: { data: cached } } };
@@ -130,7 +126,7 @@ export async function fetchBookDirectory(bookId, { forceRefresh = false, signal 
   }));
   
   const inner = { book_info: {}, item_data_list: itemDataList };
-  directoryCache.set(bookId, inner);
+  await directoryCache.set(bookId, inner);
   setLastReadChapter(bookId, null);
   
   return { data: { data: { data: inner } } };
@@ -153,7 +149,7 @@ async function applyChapterConversion(result) {
 
 export async function fetchItem(itemId, { forceRefresh = false, signal } = {}) {
   if (!forceRefresh) {
-    const cached = chapterCache.get(itemId);
+    const cached = await chapterCache.get(itemId);
     if (cached != null) {
       const result = { data: { data: { content: cached, novel_data: null } } };
       return applyChapterConversion(result);
@@ -165,7 +161,7 @@ export async function fetchItem(itemId, { forceRefresh = false, signal } = {}) {
   
   const content = json.data?.content ?? '';
   const filteredContent = stripHtmlTagsAndNewlines(content);
-  chapterCache.set(itemId, filteredContent);
+  await chapterCache.set(itemId, filteredContent);
   
   const result = {
     data: {

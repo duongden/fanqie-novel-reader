@@ -1,7 +1,4 @@
 import {
-  DIRECTORY_CACHE_KEY,
-  DETAIL_CACHE_KEY,
-  CHAPTER_CACHE_KEY,
   READING_HISTORY_KEY,
   READING_HISTORY_MAX,
   FONT_SIZE_KEY,
@@ -16,6 +13,7 @@ import {
   TEXT_BRIGHTNESS_MAX,
   TEXT_BRIGHTNESS_DEFAULT,
 } from './constants';
+import { directoryCache, chapterCache, detailCache } from './cache';
 
 export function safeGetItem(key) {
   if (typeof window === 'undefined') return null;
@@ -63,13 +61,13 @@ export function safeRemoveItem(key) {
   }
 }
 
-export function deleteBookData(bookId) {
+export async function deleteBookData(bookId) {
   if (!bookId) return;
-  const directory = safeGetJSON(`${DIRECTORY_CACHE_KEY}-${bookId}`);
+  const directory = await directoryCache.get(bookId);
   const itemIds = directory?.item_data_list?.map((item) => item.item_id) ?? [];
-  safeRemoveItem(`${DIRECTORY_CACHE_KEY}-${bookId}`);
-  safeRemoveItem(`${DETAIL_CACHE_KEY}-${bookId}`);
-  itemIds.forEach((itemId) => safeRemoveItem(`${CHAPTER_CACHE_KEY}-${itemId}`));
+  await directoryCache.remove(bookId);
+  await detailCache.remove(bookId);
+  await Promise.all(itemIds.map((itemId) => chapterCache.remove(itemId)));
   const history = getReadingHistory().filter((e) => e.bookId !== bookId);
   safeSetJSON(READING_HISTORY_KEY, history);
 }
@@ -148,14 +146,15 @@ export function getUseTraditionalChinese() {
 export function setUseTraditionalChinese(enabled) {
   return safeSetItem(TRADITIONAL_CHINESE_KEY, enabled ? '1' : '0');
 }
-export function isChapterCached(itemId) {
+export async function isChapterCached(itemId) {
   if (!itemId) return false;
-  const raw = safeGetJSON(`${CHAPTER_CACHE_KEY}-${itemId}`);
+  const raw = await chapterCache.get(itemId);
   return raw != null;
 }
 
-export function deleteChapter(itemId) {
+export async function deleteChapter(itemId) {
   if (!itemId) return false;
-  return safeRemoveItem(`${CHAPTER_CACHE_KEY}-${itemId}`);
+  await chapterCache.remove(itemId);
+  return true;
 }
 
