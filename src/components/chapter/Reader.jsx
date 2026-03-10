@@ -17,17 +17,17 @@ const ReaderWrapper = styled.div`
   }
 
   p {
-    line-height: 1.8;
+    line-height: 2;
     font-size: ${(p) => p.$fontSize ?? 18}px;
     color: color-mix(in srgb, var(--text-color) ${(p) => p.$textBrightness ?? 90}%, transparent);
-    margin-bottom: 1.5em;
+    margin-bottom: 1.8em;
     text-align: justify;
-    letter-spacing: 0.02em;
-    font-family: ${(p) => p.$fontFamily ?? 'Georgia, serif'};
+    letter-spacing: 0.05em;
+    font-family: ${(p) => p.$fontFamily ?? 'Noto Serif TC, Noto Serif SC, SimSun, PMingLiU, Georgia, serif'};
   }
 
   br {
-    display: none; /* We use margin on p instead */
+    display: none;
   }
 `;
 

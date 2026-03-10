@@ -17,8 +17,8 @@ const TopBarWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  background-color: rgba(18, 18, 18, 0.95);
-  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(8px);
   position: fixed;
   top: 0;
   left: 0;
@@ -48,7 +48,7 @@ const TitleBlock = styled.div`
 
   h1 {
     color: var(--text-color);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     margin: 0;
     white-space: nowrap;
@@ -84,17 +84,17 @@ const ProgressBox = styled.div`
 `;
 
 const ProgressBarContainer = styled.div`
-  height: 4px;
+  height: 3px;
   flex: 1;
-  border-radius: 2px;
-  background-color: var(--progressBar);
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0.05);
   overflow: hidden;
 `;
 
 const Progress = styled.div`
   height: 100%;
   background-color: var(--accent-color);
-  transition: width 0.3s ease;
+  transition: width 0.1s steps(10);
 `;
 
 const ProgressText = styled.div`

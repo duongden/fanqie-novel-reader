@@ -26,11 +26,12 @@ export const API_OPTIONS = [
 
 /** Chinese fonts for reader: { value: CSS font-family, label: display name } */
 export const CHINESE_FONTS = [
-  { value: 'Georgia, serif', label: '系統預設' },
+  { value: "'Noto Serif TC', 'Noto Serif SC', 'SimSun', 'PMingLiU', Georgia, serif", label: '系統預設（明體）' },
   { value: "'Noto Serif SC', serif", label: '思源宋體' },
+  { value: "'SimSun', serif", label: '宋體' },
+  { value: "'PMingLiU', serif", label: '新細明體' },
   { value: "'Noto Sans SC', sans-serif", label: '思源黑體' },
   { value: "'Microsoft JhengHei', sans-serif", label: '微軟正黑體' },
-  { value: "'SimSun', serif", label: '宋體' },
 ];
 
 export const FONT_SIZE_MIN = 18;
