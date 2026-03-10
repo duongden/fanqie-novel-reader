@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Globe, List, Minus, Plus, Sun, Moon, RefreshCw, Languages, Type } from 'lucide-react';
+import { Minus, Plus, Sun, Moon, RefreshCw, Type } from 'lucide-react';
 import { useConvertedText } from '../../hooks/useConvertedText';
-import { useApiBase } from '../../hooks/useApiBase';
 import ActionBar from '../common/ActionBar';
 import HomeButton from '../common/HomeButton';
-import { IconButton, IconLink } from '../common/IconButton';
+import CatalogButton from '../common/CatalogButton';
+import ApiSourceDropdown from '../common/ApiSourceDropdown';
+import ConversionDropdown from '../common/ConversionDropdown';
+import { IconButton } from '../common/IconButton';
 import IconDropdown from '../common/IconDropdown';
-import { FONT_SIZE_MIN, FONT_SIZE_MAX, TEXT_BRIGHTNESS_MIN, TEXT_BRIGHTNESS_MAX, API_OPTIONS, CHINESE_FONTS, ZH_CONVERSION_OPTIONS } from '../../utils/constants';
-import { buildCatalogUrl } from '../../utils/navigation';
+import { FONT_SIZE_MIN, FONT_SIZE_MAX, TEXT_BRIGHTNESS_MIN, TEXT_BRIGHTNESS_MAX, CHINESE_FONTS } from '../../utils/constants';
 
 const TopBarWrapper = styled.div`
   display: flex;
@@ -110,7 +111,6 @@ const ProgressText = styled.div`
 `;
 
 function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily, onFontFamilyChange, textBrightness, onTextBrightnessChange, conversionMode = 'tw', onConversionModeChange, onRefresh }) {
-  const [apiBase, handleApiChange] = useApiBase();
   const convertedTitle = useConvertedText(chapterData?.novel_data?.title, conversionMode);
   const convertedBookName = useConvertedText(bookInfo?.book_info?.original_book_name, conversionMode);
 
@@ -126,16 +126,9 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
           <h1>{convertedTitle}</h1>
           {bookInfo && <h3>{convertedBookName}</h3>}
         </TitleBlock>
-        <ActionBar panelTitle="工具">
-            <HomeButton title="返回首頁" />
-            <IconDropdown
-              icon={<Globe size={20} strokeWidth={2.5} />}
-              title="API 來源"
-              ariaLabel="選擇 API 來源"
-              options={API_OPTIONS}
-              value={apiBase}
-              onChange={handleApiChange}
-            />
+        <ActionBar>
+            <HomeButton />
+            <ApiSourceDropdown />
             {onFontSizeChange && (
               <IconButton
                 type="button"
@@ -167,14 +160,7 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
               />
             )}
             {onConversionModeChange && (
-              <IconDropdown
-                icon={<Languages size={20} strokeWidth={2.5} />}
-                title="繁簡轉換"
-                ariaLabel="選擇繁簡轉換"
-                options={ZH_CONVERSION_OPTIONS}
-                value={conversionMode}
-                onChange={onConversionModeChange}
-              />
+              <ConversionDropdown value={conversionMode} onChange={onConversionModeChange} />
             )}
             {onTextBrightnessChange && (
               <IconButton
@@ -201,11 +187,7 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
                 <RefreshCw size={20} strokeWidth={2.5} />
               </IconButton>
             )}
-            {chapterData?.novel_data?.book_id && (
-              <IconLink to={buildCatalogUrl(chapterData.novel_data.book_id)} title="目錄">
-                <List size={20} strokeWidth={2.5} />
-              </IconLink>
-            )}
+            <CatalogButton bookId={chapterData?.novel_data?.book_id} />
           </ActionBar>
       </InfoRow>
       <ProgressBox aria-hidden="true">

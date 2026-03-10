@@ -47,11 +47,11 @@ const SiteTitle = styled(Link)`
   }
 `;
 
-function TopBarBase({ children, panelTitle = '工具' }) {
+function TopBarBase({ children }) {
   return (
     <TopBarWrapper>
       <SiteTitle to="/">番茄小說閱讀器</SiteTitle>
-      <ActionBar panelTitle={panelTitle}>
+      <ActionBar>
         {children}
       </ActionBar>
     </TopBarWrapper>

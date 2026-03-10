@@ -125,7 +125,7 @@ const ToolsPanelContent = styled.div`
   padding-bottom: 16px;
 `;
 
-function ActionBar({ children, panelTitle = '工具' }) {
+function ActionBar({ children }) {
   const [toolsExpanded, setToolsExpanded] = useState(false);
   const isMobile = useMediaQuery('(max-width: 480px)');
 
@@ -133,7 +133,7 @@ function ActionBar({ children, panelTitle = '工具' }) {
     <>
       <RightActions>
         {isMobile ? (
-          <ToolsToggle type="button" title={panelTitle} onClick={() => setToolsExpanded(true)}>
+          <ToolsToggle type="button" title="工具" onClick={() => setToolsExpanded(true)}>
             <SlidersHorizontal size={20} strokeWidth={2.5} />
           </ToolsToggle>
         ) : (
@@ -145,7 +145,7 @@ function ActionBar({ children, panelTitle = '工具' }) {
           <Overlay $visible={toolsExpanded} onClick={() => setToolsExpanded(false)} aria-hidden="true" />
           <ToolsPanel $open={toolsExpanded}>
             <ToolsPanelHeader>
-              <span>{panelTitle}</span>
+              <span>工具</span>
               <IconButton type="button" title="關閉" onClick={() => setToolsExpanded(false)}>
                 <X size={20} strokeWidth={2.5} />
               </IconButton>

@@ -90,6 +90,7 @@ const ActionButtons = styled.div`
   gap: 4px;
   align-items: center;
   z-index: 11;
+  pointer-events: auto; /* stay clickable when Card has pointer-events: none during refresh */
 `;
 
 const ActionButton = styled.button`
