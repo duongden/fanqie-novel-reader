@@ -147,12 +147,12 @@ function Content({
   canGoNext,
   onPrevPage,
   onNextPage,
-  useTraditionalChinese,
+  conversionMode,
 }) {
   return (
     <ContentWrapper>
       {bookInfo && (
-        <Info bookInfo={bookInfo} useTraditionalChinese={useTraditionalChinese} />
+        <Info bookInfo={bookInfo} conversionMode={conversionMode} />
       )}
       <Section>
         <SectionTitle>
@@ -180,8 +180,8 @@ function Content({
                 const score = item.score ?? '';
                 const text = item.text ?? '';
 
-                const convertedUser = maybeConvert(user, useTraditionalChinese);
-                const convertedText = maybeConvert(text, useTraditionalChinese);
+                const convertedUser = maybeConvert(user, conversionMode);
+                const convertedText = maybeConvert(text, conversionMode);
 
                 return (
                   <CommentItem key={item.comment_id ?? idx}>

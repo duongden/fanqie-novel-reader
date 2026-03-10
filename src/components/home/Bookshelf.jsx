@@ -29,7 +29,7 @@ const SectionTitle = styled.h2`
   }
 `;
 
-function Bookshelf({ refreshKey, onBookClick, onCatalogClick, onCommentClick, onDeleteClick, useTraditionalChinese }) {
+function Bookshelf({ refreshKey, onBookClick, onCatalogClick, onCommentClick, onDeleteClick, conversionMode }) {
   const readingHistory = getReadingHistory();
 
   if (readingHistory.length === 0) {
@@ -52,7 +52,7 @@ function Bookshelf({ refreshKey, onBookClick, onCatalogClick, onCommentClick, on
             onCatalogClick={(e) => onCatalogClick(e, bookId)}
             onCommentClick={(e) => onCommentClick?.(e, bookId)}
             onDeleteClick={onDeleteClick}
-            useTraditionalChinese={useTraditionalChinese}
+            conversionMode={conversionMode}
           />
         );
       })}

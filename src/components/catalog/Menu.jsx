@@ -110,7 +110,7 @@ const MenuItem = styled.li`
   }
 `;
 
-function Menu({ itemDataList, sortOrder, bookId, useTraditionalChinese = false, onChapterDeleted, currentPage = 0, chaptersPerPage = 50 }) {
+function Menu({ itemDataList, sortOrder, bookId, conversionMode = 'tw', onChapterDeleted, currentPage = 0, chaptersPerPage = 50 }) {
   const { isDownloading } = useDownloadManager();
   const sortedItems = sortChaptersByNumber(itemDataList, sortOrder);
   const start = currentPage * chaptersPerPage;
@@ -120,7 +120,7 @@ function Menu({ itemDataList, sortOrder, bookId, useTraditionalChinese = false, 
     <MenuList>
       {paginatedItems.map((item) => (
         <MenuItem key={item.item_id}>
-          <MenuItemLink item={item} bookId={bookId} useTraditionalChinese={useTraditionalChinese} isDownloading={isDownloading(item.item_id)} />
+          <MenuItemLink item={item} bookId={bookId} conversionMode={conversionMode} isDownloading={isDownloading(item.item_id)} />
           <ChapterActions item={item} onChapterDeleted={onChapterDeleted} />
           {item.chapter_word_number != null && <span className="word-count">共計{item.chapter_word_number}字</span>}
         </MenuItem>
@@ -129,8 +129,8 @@ function Menu({ itemDataList, sortOrder, bookId, useTraditionalChinese = false, 
   );
 }
 
-function MenuItemLink({ item, bookId, useTraditionalChinese, isDownloading }) {
-  const convertedTitle = useConvertedText(getChapterTitle(item), useTraditionalChinese);
+function MenuItemLink({ item, bookId, conversionMode, isDownloading }) {
+  const convertedTitle = useConvertedText(getChapterTitle(item), conversionMode);
 
   if (isDownloading) {
     return (

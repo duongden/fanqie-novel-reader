@@ -6,14 +6,13 @@ import { IconButton } from '../common/IconButton';
 import IconDropdown from '../common/IconDropdown';
 import { useApiBase } from '../../hooks/useApiBase';
 import { buildChapterUrl, buildCommentsUrl } from '../../utils/navigation';
-import { API_OPTIONS } from '../../utils/constants';
-import { getTraditionalChineseToggleTitle } from '../../utils/zh-convert';
+import { API_OPTIONS, ZH_CONVERSION_OPTIONS } from '../../utils/constants';
 
 function TopBar({
   bookId,
   navigate,
-  useTraditionalChinese,
-  toggleTraditionalChinese,
+  conversionMode,
+  onConversionModeChange,
   sortOrder,
   onSortChange,
   hasUncachedChapters,
@@ -73,14 +72,14 @@ function TopBar({
       >
         <ArrowUpDown size={20} strokeWidth={2.5} />
       </IconButton>
-      <IconButton
-        type="button"
-        title={getTraditionalChineseToggleTitle(useTraditionalChinese)}
-        onClick={toggleTraditionalChinese}
-        style={useTraditionalChinese ? { color: 'var(--accent-color)' } : undefined}
-      >
-        <Languages size={20} strokeWidth={2.5} />
-      </IconButton>
+      <IconDropdown
+        icon={<Languages size={20} strokeWidth={2.5} />}
+        title="繁簡轉換"
+        ariaLabel="選擇繁簡轉換"
+        options={ZH_CONVERSION_OPTIONS}
+        value={conversionMode}
+        onChange={onConversionModeChange}
+      />
       <IconButton
         type="button"
         title={hasUncachedChapters ? `批次下載 (${batchSize} 章)` : '全部已下載'}

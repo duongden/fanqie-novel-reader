@@ -137,15 +137,19 @@ export function setTextBrightness(value) {
   return safeSetItem(TEXT_BRIGHTNESS_KEY, String(clamped));
 }
 
-export function getUseTraditionalChinese() {
+/** @returns {'original'|'tw'|'hk'} Default: 'tw' */
+export function getConversionMode() {
   const raw = safeGetItem(TRADITIONAL_CHINESE_KEY);
-  if (raw == null) return true; // enabled by default for new users
-  return raw === '1';
+  if (raw == null) return 'tw';
+  if (raw === 'original' || raw === 'tw' || raw === 'hk') return raw;
+  return raw === '1' ? 'tw' : 'original'; // backward compat
 }
 
-export function setUseTraditionalChinese(enabled) {
-  return safeSetItem(TRADITIONAL_CHINESE_KEY, enabled ? '1' : '0');
+export function setConversionMode(mode) {
+  const valid = mode === 'original' || mode === 'tw' || mode === 'hk';
+  return valid ? safeSetItem(TRADITIONAL_CHINESE_KEY, mode) : false;
 }
+
 export async function isChapterCached(itemId) {
   if (!itemId) return false;
   const raw = await chapterCache.get(itemId);

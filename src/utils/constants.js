@@ -9,6 +9,13 @@ export const FONT_FAMILY_KEY = 'fanqie-fontFamily';
 export const TRADITIONAL_CHINESE_KEY = 'fanqie-traditionalChinese';
 export const TEXT_BRIGHTNESS_KEY = 'fanqie-textBrightness';
 
+/** Chinese conversion modes: { value, label } */
+export const ZH_CONVERSION_OPTIONS = [
+  { value: 'original', label: '簡體中文' },
+  { value: 'tw', label: '繁體 (台灣)' },
+  { value: 'hk', label: '繁體 (香港)' },
+];
+
 /** API sources: { value: base URL, label: display name } */
 export const API_OPTIONS = [
   { value: 'https://bk.yydjtc.cn', label: 'bk.yydjtc.cn' },

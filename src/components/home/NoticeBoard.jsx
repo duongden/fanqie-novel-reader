@@ -42,7 +42,8 @@ function NoticeBoard() {
     <Section>
       <SectionTitle><Megaphone /> 公告</SectionTitle>
       <NoticeCard>
-        2026-03-09 章節快取已升級至 IndexedDB，不再受 localStorage 容量限制，可下載更多章節。
+        <b>2026-03-10</b> | 繁簡轉換改為下拉選單，可選擇簡體、繁體（台灣）、繁體（香港），預設為台灣繁體。<br />
+        <b>2026-03-09</b> | 章節快取已升級至 IndexedDB，不再受 localStorage 容量限制，可下載更多章節。
       </NoticeCard>
     </Section>
   );

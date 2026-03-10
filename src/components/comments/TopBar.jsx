@@ -6,10 +6,9 @@ import { IconButton, IconLink } from '../common/IconButton';
 import IconDropdown from '../common/IconDropdown';
 import { useApiBase } from '../../hooks/useApiBase';
 import { buildCatalogUrl } from '../../utils/navigation';
-import { API_OPTIONS } from '../../utils/constants';
-import { getTraditionalChineseToggleTitle } from '../../utils/zh-convert';
+import { API_OPTIONS, ZH_CONVERSION_OPTIONS } from '../../utils/constants';
 
-function TopBar({ bookId, useTraditionalChinese, toggleTraditionalChinese, onRefresh }) {
+function TopBar({ bookId, conversionMode, onConversionModeChange, onRefresh }) {
   const [apiBase, handleApiChange] = useApiBase();
   return (
     <TopBarBase>
@@ -22,14 +21,14 @@ function TopBar({ bookId, useTraditionalChinese, toggleTraditionalChinese, onRef
         value={apiBase}
         onChange={handleApiChange}
       />
-      <IconButton
-        type="button"
-        title={getTraditionalChineseToggleTitle(useTraditionalChinese)}
-        onClick={toggleTraditionalChinese}
-        style={useTraditionalChinese ? { color: 'var(--accent-color)' } : undefined}
-      >
-        <Languages size={20} strokeWidth={2.5} />
-      </IconButton>
+      <IconDropdown
+        icon={<Languages size={20} strokeWidth={2.5} />}
+        title="繁簡轉換"
+        ariaLabel="選擇繁簡轉換"
+        options={ZH_CONVERSION_OPTIONS}
+        value={conversionMode}
+        onChange={onConversionModeChange}
+      />
       <IconButton
         type="button"
         title="重新載入評論"

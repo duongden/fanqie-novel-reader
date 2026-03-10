@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Search, Globe, Languages } from 'lucide-react';
-import { API_OPTIONS } from '../../utils/constants';
-import { getTraditionalChineseToggleTitle } from '../../utils/zh-convert';
+import { Search, Globe } from 'lucide-react';
+import { API_OPTIONS, ZH_CONVERSION_OPTIONS } from '../../utils/constants';
 import { useApiBase } from '../../hooks/useApiBase';
-import { useTraditionalChineseToggle } from '../../hooks/useTraditionalChineseToggle';
+import { useConversionMode } from '../../hooks/useConversionMode';
 import { parseBookIdFromInput } from '../../utils/parseBookId';
 
 const Section = styled.section`
@@ -108,17 +107,17 @@ const ApiSelectWrapper = styled.div`
   flex-wrap: wrap;
 
   select {
-    background: none;
+    background-color: var(--background-color);
     border: none;
     color: var(--accent-color);
     font-weight: 600;
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 6px;
-    transition: background 0.2s;
+    transition: background-color 0.2s;
 
     &:hover {
-      background: var(--hover-background-color);
+      background-color: var(--hover-background-color);
     }
 
     &:focus {
@@ -127,45 +126,12 @@ const ApiSelectWrapper = styled.div`
   }
 `;
 
-const TranslateButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  background: var(--background-color);
-  color: ${(p) => (p.$active ? 'var(--accent-color)' : 'var(--text-color)')};
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: var(--hover-background-color);
-    border-color: var(--accent-color);
-    color: var(--accent-color);
-  }
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-`;
-
-function AddBook({ onSubmit, refreshKey, useTraditionalChinese, onTraditionalChineseToggle }) {
+function AddBook({ onSubmit, refreshKey, conversionMode, onConversionModeChange }) {
   const [apiBase, handleApiChange] = useApiBase();
-  const [localUseTraditionalChinese, toggleLocalTraditionalChinese] = useTraditionalChineseToggle();
-  const isControlled = useTraditionalChinese !== undefined && onTraditionalChineseToggle !== undefined;
-  const effectiveUseTraditionalChinese = isControlled ? useTraditionalChinese : localUseTraditionalChinese;
-
-  const handleTranslateToggle = () => {
-    if (isControlled) {
-      onTraditionalChineseToggle();
-    } else {
-      toggleLocalTraditionalChinese();
-    }
-  };
+  const [localConversionMode, setLocalConversionMode] = useConversionMode();
+  const isControlled = conversionMode !== undefined && onConversionModeChange !== undefined;
+  const effectiveConversionMode = isControlled ? conversionMode : localConversionMode;
+  const handleConversionChange = isControlled ? onConversionModeChange : setLocalConversionMode;
 
   const handleSelectChange = (e) => {
     handleApiChange(e.target.value);
@@ -204,15 +170,18 @@ function AddBook({ onSubmit, refreshKey, useTraditionalChinese, onTraditionalChi
               </option>
             ))}
           </select>
-          <TranslateButton
-            type="button"
-            $active={effectiveUseTraditionalChinese}
-            onClick={handleTranslateToggle}
-            title={getTraditionalChineseToggleTitle(effectiveUseTraditionalChinese)}
+          <span>繁簡:</span>
+          <select
+            value={effectiveConversionMode}
+            onChange={(e) => handleConversionChange(e.target.value)}
+            title="繁簡轉換"
           >
-            <Languages size={16} strokeWidth={2.5} />
-            {effectiveUseTraditionalChinese ? '繁體' : '简体'}
-          </TranslateButton>
+            {ZH_CONVERSION_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
         </ApiSelectWrapper>
       </InputGroup>
     </Section>

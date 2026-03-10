@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { getLastReadChapter, isChapterCached } from '../utils/storage';
 import { sortChaptersByNumber } from '../utils/sorting';
 import { exportBookToTxt } from '../utils/exportBookTxt';
-import { useTraditionalChineseToggle } from '../hooks/useTraditionalChineseToggle';
+import { useConversionMode } from '../hooks/useConversionMode';
 import { useBookLoader } from '../hooks/useBookLoader';
 import { useDownloadManager } from '../contexts/DownloadManager';
 import { MAX_CONCURRENT_DOWNLOADS } from '../utils/constants';
@@ -36,7 +36,7 @@ function Catalog() {
   const { addToQueue, isDownloading, startDownloadAll, stopDownloadAll, isDownloadingAll, completedDownloads } = useDownloadManager();
   const { showToast } = useToast();
   const [sortOrder, setSortOrder] = useState('ascending');
-  const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
+  const [conversionMode, setConversionMode] = useConversionMode();
   const [, setCatalogRefresh] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [uncachedItemIds, setUncachedItemIds] = useState([]);
@@ -101,7 +101,7 @@ function Catalog() {
       bookId,
       bookInfo,
       itemDataList: sorted,
-      useTraditionalChinese,
+      conversionMode,
     });
     if (result?.exportedCount === 0) {
       showToast('沒有已下載的章節，無法匯出正文。請先下載章節。');
@@ -122,8 +122,8 @@ function Catalog() {
         <TopBar
           bookId={bookId}
           navigate={navigate}
-          useTraditionalChinese={useTraditionalChinese}
-          toggleTraditionalChinese={toggleTraditionalChinese}
+          conversionMode={conversionMode}
+          onConversionModeChange={setConversionMode}
           sortOrder={sortOrder}
           onSortChange={handleSortChange}
           hasUncachedChapters={hasUncachedChapters}
@@ -146,9 +146,9 @@ function Catalog() {
       )}
       {bookInfo ? (
         <Content>
-          <Info bookInfo={bookInfo} useTraditionalChinese={useTraditionalChinese} />
+          <Info bookInfo={bookInfo} conversionMode={conversionMode} />
           {bookInfo.item_data_list && (
-            <Menu sortOrder={sortOrder} itemDataList={bookInfo.item_data_list} bookId={bookId} useTraditionalChinese={useTraditionalChinese} onChapterDeleted={onChapterDeleted} currentPage={currentPage} chaptersPerPage={CHAPTERS_PER_PAGE} />
+            <Menu sortOrder={sortOrder} itemDataList={bookInfo.item_data_list} bookId={bookId} conversionMode={conversionMode} onChapterDeleted={onChapterDeleted} currentPage={currentPage} chaptersPerPage={CHAPTERS_PER_PAGE} />
           )}
         </Content>
       ) : (

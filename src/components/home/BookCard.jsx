@@ -127,7 +127,7 @@ const ActionButton = styled.button`
   }
 `;
 
-function BookCard({ bookId, actionHint, onClick, onCatalogClick, onCommentClick, onRefreshClick, onDeleteClick, useTraditionalChinese }) {
+function BookCard({ bookId, actionHint, onClick, onCatalogClick, onCommentClick, onRefreshClick, onDeleteClick, conversionMode }) {
   const { bookInfo, refetch, isRefreshing } = useBookLoader(bookId, { detailOnly: true });
 
   if (!bookInfo) return null;
@@ -182,7 +182,7 @@ function BookCard({ bookId, actionHint, onClick, onCatalogClick, onCommentClick,
       </ActionButtons>
       <Info
         bookInfo={bookInfo}
-        useTraditionalChinese={useTraditionalChinese}
+        conversionMode={conversionMode}
         variant="compact"
       />
       <div className="action-hint">{actionHint}</div>

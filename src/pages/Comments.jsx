@@ -9,7 +9,7 @@ import Loading from '../components/common/Loading';
 import PageWrapper from '../components/common/PageWrapper';
 import TopBar from '../components/comments/TopBar';
 import Content from '../components/comments/Content';
-import { useTraditionalChineseToggle } from '../hooks/useTraditionalChineseToggle';
+import { useConversionMode } from '../hooks/useConversionMode';
 import { useConvertedText } from '../hooks/useConvertedText';
 
 const COMMENTS_PER_PAGE = 20;
@@ -20,7 +20,7 @@ function Comments() {
   const bookId = searchParams.get('bookId');
   const pageParam = parseInt(searchParams.get('page') || '1', 10);
   const page = Math.max(1, pageParam);
-  const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
+  const [conversionMode, setConversionMode] = useConversionMode();
 
   const { error: bookError, bookInfo } = useBookLoader(bookId, { detailOnly: true });
   const [data, setData] = useState(null);
@@ -58,7 +58,7 @@ function Comments() {
   const canGoNext = hasMore;
   const canGoPrev = page > 1;
 
-  const convertedContext = useConvertedText(context, useTraditionalChinese);
+  const convertedContext = useConvertedText(context, conversionMode);
 
   const handlePrevPage = () => {
     if (canGoPrev) {
@@ -94,8 +94,8 @@ function Comments() {
         <>
           <TopBar
             bookId={bookId}
-            useTraditionalChinese={useTraditionalChinese}
-            toggleTraditionalChinese={toggleTraditionalChinese}
+            conversionMode={conversionMode}
+            onConversionModeChange={setConversionMode}
             onRefresh={handleRefresh}
           />
           <Content
@@ -109,7 +109,7 @@ function Comments() {
             canGoNext={canGoNext}
             onPrevPage={handlePrevPage}
             onNextPage={handleNextPage}
-            useTraditionalChinese={useTraditionalChinese}
+            conversionMode={conversionMode}
           />
         </>
       )}

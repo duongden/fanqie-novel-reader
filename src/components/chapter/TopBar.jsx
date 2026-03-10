@@ -7,8 +7,7 @@ import ActionBar from '../common/ActionBar';
 import HomeButton from '../common/HomeButton';
 import { IconButton, IconLink } from '../common/IconButton';
 import IconDropdown from '../common/IconDropdown';
-import { FONT_SIZE_MIN, FONT_SIZE_MAX, TEXT_BRIGHTNESS_MIN, TEXT_BRIGHTNESS_MAX, API_OPTIONS, CHINESE_FONTS } from '../../utils/constants';
-import { getTraditionalChineseToggleTitle } from '../../utils/zh-convert';
+import { FONT_SIZE_MIN, FONT_SIZE_MAX, TEXT_BRIGHTNESS_MIN, TEXT_BRIGHTNESS_MAX, API_OPTIONS, CHINESE_FONTS, ZH_CONVERSION_OPTIONS } from '../../utils/constants';
 import { buildCatalogUrl } from '../../utils/navigation';
 
 const TopBarWrapper = styled.div`
@@ -110,10 +109,10 @@ const ProgressText = styled.div`
   }
 `;
 
-function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily, onFontFamilyChange, textBrightness, onTextBrightnessChange, useTraditionalChinese = false, onTraditionalChineseToggle, onRefresh }) {
+function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily, onFontFamilyChange, textBrightness, onTextBrightnessChange, conversionMode = 'tw', onConversionModeChange, onRefresh }) {
   const [apiBase, handleApiChange] = useApiBase();
-  const convertedTitle = useConvertedText(chapterData?.novel_data?.title, useTraditionalChinese);
-  const convertedBookName = useConvertedText(bookInfo?.book_info?.original_book_name, useTraditionalChinese);
+  const convertedTitle = useConvertedText(chapterData?.novel_data?.title, conversionMode);
+  const convertedBookName = useConvertedText(bookInfo?.book_info?.original_book_name, conversionMode);
 
   if (!chapterData || !chapterData.novel_data) return null;
 
@@ -167,15 +166,15 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
                 onChange={onFontFamilyChange}
               />
             )}
-            {onTraditionalChineseToggle && (
-              <IconButton
-                type="button"
-                title={getTraditionalChineseToggleTitle(useTraditionalChinese)}
-                onClick={onTraditionalChineseToggle}
-                style={useTraditionalChinese ? { color: 'var(--accent-color)' } : undefined}
-              >
-                <Languages size={20} strokeWidth={2.5} />
-              </IconButton>
+            {onConversionModeChange && (
+              <IconDropdown
+                icon={<Languages size={20} strokeWidth={2.5} />}
+                title="繁簡轉換"
+                ariaLabel="選擇繁簡轉換"
+                options={ZH_CONVERSION_OPTIONS}
+                value={conversionMode}
+                onChange={onConversionModeChange}
+              />
             )}
             {onTextBrightnessChange && (
               <IconButton

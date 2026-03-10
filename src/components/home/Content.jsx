@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteBookData, getLastReadChapter } from '../../utils/storage';
-import { useTraditionalChineseToggle } from '../../hooks/useTraditionalChineseToggle';
+import { useConversionMode } from '../../hooks/useConversionMode';
 import { maybeConvert } from '../../utils/zh-convert';
 import { buildChapterOrCatalogUrl, buildCatalogUrl, buildCommentsUrl } from '../../utils/navigation';
 import Bookshelf from './Bookshelf';
@@ -26,7 +26,7 @@ const ContentWrapper = styled.div`
 function Content() {
   const navigate = useNavigate();
   const [refreshKey, setRefreshKey] = useState(0);
-  const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
+  const [conversionMode, setConversionMode] = useConversionMode();
 
   const handleBookInputSubmit = (bookId) => {
     const lastReadItemId = getLastReadChapter(bookId);
@@ -51,7 +51,7 @@ function Content() {
   const handleDeleteBook = async (e, bookId, bookInfo) => {
     e.stopPropagation();
     const bookName = bookInfo?.book_info?.original_book_name;
-    const convertedName = maybeConvert(bookName, useTraditionalChinese) || bookId;
+    const convertedName = maybeConvert(bookName, conversionMode) || bookId;
     if (window.confirm(`確定要刪除「${convertedName}」的所有本地資料嗎？`)) {
       await deleteBookData(bookId);
       setRefreshKey((k) => k + 1);
@@ -67,14 +67,14 @@ function Content() {
         onCatalogClick={handleCatalogClick}
         onCommentClick={handleCommentClick}
         onDeleteClick={handleDeleteBook}
-        useTraditionalChinese={useTraditionalChinese}
+        conversionMode={conversionMode}
       />
 
       <AddBook
         onSubmit={handleBookInputSubmit}
         refreshKey={refreshKey}
-        useTraditionalChinese={useTraditionalChinese}
-        onTraditionalChineseToggle={toggleTraditionalChinese}
+        conversionMode={conversionMode}
+        onConversionModeChange={setConversionMode}
       />
 
       <Help />

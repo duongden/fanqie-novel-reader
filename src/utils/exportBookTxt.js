@@ -8,16 +8,16 @@ import { getChapterTitle } from './chapter-helpers';
  * @param {string} params.bookId - Book ID
  * @param {Object} params.bookInfo - Book info (book_info.original_book_name, author, abstract)
  * @param {Array<{item_id: string, title: string}>} params.itemDataList - Chapter list
- * @param {boolean} [params.useTraditionalChinese] - Whether to convert content to traditional Chinese
+ * @param {'original'|'tw'|'hk'} [params.conversionMode] - Conversion mode: original, tw (Taiwan), hk (Hong Kong)
  * @returns {Promise<{ exportedCount: number }>} Number of chapters exported; 0 if none were cached
  */
-export async function exportBookToTxt({ bookId, bookInfo, itemDataList, useTraditionalChinese = false }) {
+export async function exportBookToTxt({ bookId, bookInfo, itemDataList, conversionMode = 'tw' }) {
   if (!bookId || !bookInfo || !itemDataList?.length) return { exportedCount: 0 };
 
   const bookInfoData = bookInfo?.book_info || bookInfo;
-  const bookName = maybeConvert(bookInfoData.original_book_name, useTraditionalChinese);
-  const author = maybeConvert(bookInfoData.author, useTraditionalChinese);
-  const abstract = maybeConvert(bookInfoData.abstract, useTraditionalChinese);
+  const bookName = maybeConvert(bookInfoData.original_book_name, conversionMode);
+  const author = maybeConvert(bookInfoData.author, conversionMode);
+  const abstract = maybeConvert(bookInfoData.abstract, conversionMode);
 
   const lines = [
     bookName,
@@ -37,8 +37,8 @@ export async function exportBookToTxt({ bookId, bookInfo, itemDataList, useTradi
     const content = await chapterCache.get(item.item_id);
     if (content == null || typeof content !== 'string') continue;
 
-    const converted = maybeConvert(content, useTraditionalChinese);
-    const chapterTitle = maybeConvert(getChapterTitle(item), useTraditionalChinese);
+    const converted = maybeConvert(content, conversionMode);
+    const chapterTitle = maybeConvert(getChapterTitle(item), conversionMode);
 
     lines.push(chapterTitle);
     lines.push('');

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { maybeConvert } from '../utils/zh-convert';
 
-export function useConvertedText(text, useTraditional) {
+/** @param {'original'|'tw'|'hk'} [mode] */
+export function useConvertedText(text, mode) {
   const [converted, setConverted] = useState(text ?? '');
 
   useEffect(() => {
@@ -9,8 +10,8 @@ export function useConvertedText(text, useTraditional) {
       setConverted('');
       return;
     }
-    setConverted(maybeConvert(text, useTraditional));
-  }, [text, useTraditional]);
+    setConverted(maybeConvert(text, mode));
+  }, [text, mode]);
 
   return converted;
 }

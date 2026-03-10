@@ -6,7 +6,7 @@ import Reader from '../components/chapter/Reader';
 import Error from '../components/common/Error';
 import Loading from '../components/common/Loading';
 import PageWrapper from '../components/common/PageWrapper';
-import { useTraditionalChineseToggle } from '../hooks/useTraditionalChineseToggle';
+import { useConversionMode } from '../hooks/useConversionMode';
 import { useFontSize, useFontFamily, useTextBrightness } from '../hooks/useTextSettings';
 import { useChapterLoader } from '../hooks/useChapterLoader';
 import { buildCatalogUrl } from '../utils/navigation';
@@ -21,12 +21,15 @@ function Chapter() {
   const [fontSize, handleFontSizeChange] = useFontSize();
   const [fontFamily, handleFontFamilyChange] = useFontFamily();
   const [textBrightness, handleTextBrightnessChange] = useTextBrightness();
-  const [useTraditionalChinese, toggleTraditionalChinese] = useTraditionalChineseToggle();
+  const [conversionMode, setConversionMode] = useConversionMode();
 
-  const handleTraditionalChineseToggle = useCallback(() => {
-    toggleTraditionalChinese();
-    loadChapter(false);
-  }, [loadChapter, toggleTraditionalChinese]);
+  const handleConversionModeChange = useCallback(
+    (mode) => {
+      setConversionMode(mode);
+      loadChapter(false);
+    },
+    [setConversionMode, loadChapter]
+  );
 
   const handleRefresh = useCallback(() => {
     loadChapter(true);
@@ -61,8 +64,8 @@ function Chapter() {
                 onFontFamilyChange={handleFontFamilyChange}
                 textBrightness={textBrightness}
                 onTextBrightnessChange={handleTextBrightnessChange}
-                useTraditionalChinese={useTraditionalChinese}
-                onTraditionalChineseToggle={handleTraditionalChineseToggle}
+                conversionMode={conversionMode}
+                onConversionModeChange={handleConversionModeChange}
                 onRefresh={handleRefresh}
               />
               <Reader chapterData={chapterData} fontSize={fontSize} fontFamily={fontFamily} textBrightness={textBrightness} />

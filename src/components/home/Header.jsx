@@ -6,7 +6,7 @@ const HeaderWrapper = styled.header`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: calc(40px + env(safe-area-inset-top));
+  padding-top: calc(60px + env(safe-area-inset-top));
   margin-bottom: 10px;
   gap: 16px;
 `;
@@ -28,16 +28,18 @@ const Subtitle = styled.p`
   font-size: 16px;
   color: var(--text-color-secondary);
   max-width: 400px;
-  line-height: 0.8;
+  /* line-height: 0.8; */
   margin: 0;
 `;
 
 function Header() {
   return (
     <HeaderWrapper>
-      <Title>番茄小說閱讀器</Title>
-      <Subtitle>本地儲存、支援多章節下載與 TXT 匯出</Subtitle>
-      <Subtitle>無需中國大陸手機號即可在線存取番茄小說</Subtitle>
+      <Title>番茄繁體閱讀</Title>
+      <Subtitle>
+        免除手機號登錄 · 粉碎無效廣告擾<br />
+        為繁體閱讀而生 · 讓小說回歸純粹<br />
+      </Subtitle>
     </HeaderWrapper>
   );
 }

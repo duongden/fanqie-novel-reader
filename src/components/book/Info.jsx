@@ -281,7 +281,7 @@ const Footer = styled.div`
   color: var(--text-color-secondary);
 `;
 
-function Info({ bookInfo, useTraditionalChinese = false, variant, footer }) {
+function Info({ bookInfo, conversionMode = 'tw', variant, footer }) {
   const [showFullAbstract, setShowFullAbstract] = useState(false);
   const isMobile = useMediaQuery('(max-width: 480px)');
   
@@ -289,14 +289,14 @@ function Info({ bookInfo, useTraditionalChinese = false, variant, footer }) {
   const { original_book_name, author, audio_thumb_uri, abstract, tags, score, category, sub_info, word_number, creation_status, last_publish_time } = bookInfoData;
   const chapter_count = bookInfo?.chapter_count ?? null;
 
-  const convertedAbstract = useConvertedText(abstract, useTraditionalChinese);
-  const convertedBookName = useConvertedText(original_book_name, useTraditionalChinese);
-  const convertedAuthor = useConvertedText(author, useTraditionalChinese);
-  const convertedTags = useConvertedText(tags, useTraditionalChinese);
-  const convertedCategory = useConvertedText(category, useTraditionalChinese);
-  const convertedSubInfo = useConvertedText(sub_info, useTraditionalChinese);
-  const convertedWordNumber = useConvertedText(word_number, useTraditionalChinese);
-  const convertedCreationStatus = useConvertedText(creation_status, useTraditionalChinese);
+  const convertedAbstract = useConvertedText(abstract, conversionMode);
+  const convertedBookName = useConvertedText(original_book_name, conversionMode);
+  const convertedAuthor = useConvertedText(author, conversionMode);
+  const convertedTags = useConvertedText(tags, conversionMode);
+  const convertedCategory = useConvertedText(category, conversionMode);
+  const convertedSubInfo = useConvertedText(sub_info, conversionMode);
+  const convertedWordNumber = useConvertedText(word_number, conversionMode);
+  const convertedCreationStatus = useConvertedText(creation_status, conversionMode);
   
   const fullAbstract = cleanAbstract(convertedAbstract);
   const maxLen = isMobile ? MOBILE_ABSTRACT_LENGTH : MAX_ABSTRACT_LENGTH;
