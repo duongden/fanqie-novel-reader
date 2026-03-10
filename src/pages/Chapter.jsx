@@ -24,11 +24,8 @@ function Chapter() {
   const [conversionMode, setConversionMode] = useConversionMode();
 
   const handleConversionModeChange = useCallback(
-    (mode) => {
-      setConversionMode(mode);
-      loadChapter(false);
-    },
-    [setConversionMode, loadChapter]
+    (mode) => setConversionMode(mode),
+    [setConversionMode]
   );
 
   const handleRefresh = useCallback(() => {
@@ -68,7 +65,7 @@ function Chapter() {
                 onConversionModeChange={handleConversionModeChange}
                 onRefresh={handleRefresh}
               />
-              <Reader chapterData={chapterData} fontSize={fontSize} fontFamily={fontFamily} textBrightness={textBrightness} />
+              <Reader chapterData={chapterData} fontSize={fontSize} fontFamily={fontFamily} textBrightness={textBrightness} conversionMode={conversionMode} />
               <BottomBar chapterData={chapterData} bookId={bookId} />
             </>
           )}

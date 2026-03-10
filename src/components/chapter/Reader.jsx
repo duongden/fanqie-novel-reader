@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { maybeConvert } from '../../utils/zh-convert';
 
 const ReaderWrapper = styled.div`
   margin: 0 auto;
@@ -31,11 +32,13 @@ const ReaderWrapper = styled.div`
   }
 `;
 
-function Reader({ chapterData, fontSize = 18, fontFamily = 'Georgia, serif', textBrightness = 90 }) {
+function Reader({ chapterData, fontSize = 18, fontFamily = 'Georgia, serif', textBrightness = 90, conversionMode = 'tw' }) {
   if (!chapterData || !chapterData.content) return null;
 
+  const convertedContent = maybeConvert(chapterData.content, conversionMode);
+
   // Split content by newlines and wrap in <p> tags for better semantics and styling
-  const paragraphs = chapterData.content
+  const paragraphs = convertedContent
     .split('\n')
     .map(p => p.trim())
     .filter(p => p.length > 0);
