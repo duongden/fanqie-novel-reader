@@ -30,8 +30,8 @@ export const ZH_CONVERSION_OPTIONS = [
 
 /** API sources: { value: base URL, label: display name, type: 1 or 2 } */
 export const API_OPTIONS = [
-  { value: 'https://qkfqapi.vv9v.cn', label: 'qkfqapi.vv9v.cn (全部)', type: 1 },
-  { value: 'https://api-v2.cenguigui.cn/api/tomato', label: 'cenguigui.cn (章節)', type: 2 },
+  { value: 'https://qkfqapi.vv9v.cn', label: '基礎服務', type: 1 },
+  { value: 'https://api-v2.cenguigui.cn/api/tomato', label: '快速章節服務', type: 2 },
 ];
 
 /** Chinese fonts for reader: { value: CSS font-family, label: display name } */
