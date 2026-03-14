@@ -47,6 +47,7 @@ function Comments() {
       })
       .catch((err) => {
         if (err.name === 'AbortError') return;
+        console.error('獲取評論失敗：', err);
         setCommentsError(formatErrorMessage(err, '獲取評論失敗，請稍後再試。'));
         setLoading(false);
       });

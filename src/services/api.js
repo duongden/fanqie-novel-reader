@@ -12,6 +12,12 @@ export function setApiBase(url) {
   safeSetItem(API_BASE_KEY, url);
 }
 
+function getApiType() {
+  const base = getApiBase();
+  const api = API_OPTIONS.find((opt) => opt.value === base);
+  return api?.type ?? 1;
+}
+
 async function fetchWithTimeout(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
   const controller = new AbortController();
   let timedOut = false;
@@ -139,7 +145,12 @@ export async function fetchItem(itemId, { forceRefresh = false, signal } = {}) {
     }
   }
 
-  const url = `${getApiBase()}/api/content?tab=小说&item_id=${itemId}`;
+  const apiType = getApiType();
+  const base = getApiBase();
+  const url = apiType === 2
+    ? `${base}/content.php?item_id=${itemId}`
+    : `${base}/api/content?tab=小说&item_id=${itemId}`;
+  
   const json = await fetchAndValidate(url, { signal });
   
   const content = json.data?.content ?? '';
