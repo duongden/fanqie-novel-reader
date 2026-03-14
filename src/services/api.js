@@ -159,7 +159,7 @@ export async function fetchItem(itemId, { forceRefresh = false, signal } = {}) {
   const apiType = getApiType();
   const base = getApiBase();
   const url = apiType === 2
-    ? `${base}/content.php?item_id=${itemId}`
+    ? `${base}/api.php?item_id=${itemId}`
     : `${base}/api/content?tab=小说&item_id=${itemId}`;
   
   const json = await fetchAndValidate(url, { signal });
