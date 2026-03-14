@@ -2,6 +2,7 @@ import { API_BASE_KEY, API_OPTIONS, REQUEST_TIMEOUT_MS } from '../utils/constant
 import { safeGetItem, safeSetItem, setLastReadChapter } from '../utils/storage';
 import { directoryCache, chapterCache, detailCache } from '../utils/cache';
 
+const USE_PROXY = import.meta.env.VITE_USE_PROXY === 'true';
 const DEFAULT_API_BASE = API_OPTIONS[0].value;
 
 export function getApiBase() {
@@ -16,6 +17,10 @@ function getApiType() {
   const base = getApiBase();
   const api = API_OPTIONS.find((opt) => opt.value === base);
   return api?.type ?? 1;
+}
+
+function useProxy(url) {
+  return USE_PROXY && /^https?:\/\//.test(url);
 }
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
@@ -37,8 +42,14 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = REQUEST_TIMEOUT_M
     });
   }
 
+  const fetchUrl = useProxy(url) ? '/proxy' : url;
+  const fetchOptions = { ...options, signal: controller.signal };
+  if (useProxy(url)) {
+    fetchOptions.headers = { ...fetchOptions.headers, 'X-Target-URL': url };
+  }
+
   try {
-    const res = await fetch(url, { ...options, signal: controller.signal });
+    const res = await fetch(fetchUrl, fetchOptions);
     clearTimeout(timeoutId);
     return res;
   } catch (err) {

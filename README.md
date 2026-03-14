@@ -72,7 +72,7 @@ npm run dev # 開啟 http://localhost:5173 即可
 npm run build
 ```
 
-- **部署建議**：可部署至 Vercel, Netlify, GitHub Pages 或 Cloudflare Pages。
+- **部署建議**：部署至 Cloudflare Pages，並在設定中新增環境變數 `VITE_USE_PROXY=true`，以透過 Functions 代理 API 請求避免 CORS。
 - **技術細節**：受 [fanqienovel-book](https://github.com/kailous/fanqienovel-book) 啟發重寫，應用直接呼叫 [番茄小說 API](https://github.com/POf-L/Fanqie-novel-Downloader)。
 
 <br>

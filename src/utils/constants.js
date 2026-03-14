@@ -23,16 +23,15 @@ export const READER_BACKGROUND_OPTIONS = [
 
 /** Chinese conversion modes: { value, label } */
 export const ZH_CONVERSION_OPTIONS = [
-  { value: 'original', label: '簡體中文' },
-  { value: 'tw', label: '繁體 (台灣)' },
-  { value: 'hk', label: '繁體 (香港)' },
+  { value: 'original', label: '原文簡體' },
+  { value: 'tw', label: '臺灣繁體' },
+  { value: 'hk', label: '香港繁體' },
 ];
 
 /** API sources: { value: base URL, label: display name, type: 1 or 2 } */
 export const API_OPTIONS = [
-  { value: 'https://qkfqapi.vv9v.cn', label: 'qkfqapi.vv9v.cn', type: 1 },
-  { value: 'http://103.236.91.147:9999', label: '103.236.91.147', type: 1 },
-  { value: 'https://api-v2.cenguigui.cn/api/tomato', label: 'cenguigui.cn', type: 2 },
+  { value: 'https://qkfqapi.vv9v.cn', label: 'qkfqapi.vv9v.cn (全部)', type: 1 },
+  { value: 'https://api-v2.cenguigui.cn/api/tomato', label: 'cenguigui.cn (章節)', type: 2 },
 ];
 
 /** Chinese fonts for reader: { value: CSS font-family, label: display name } */

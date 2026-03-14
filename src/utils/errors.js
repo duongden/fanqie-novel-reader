@@ -18,7 +18,6 @@ export function formatErrorMessage(error, defaultMessage) {
     msg.includes('Invalid response from server') ||
     msg.includes('Load failed') ||
     msg.includes('network') ||
-    name === 'TypeError' ||
     name === 'NetworkError'
   ) {
     return '請求失敗，請稍後再試。';
