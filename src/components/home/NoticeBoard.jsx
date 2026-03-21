@@ -47,6 +47,19 @@ const NoticeCard = styled.div`
     color: var(--accent-color);
     text-decoration: underline;
   }
+
+  a {
+    color: var(--accent-color);
+    text-decoration: none;
+    border: 1px solid var(--accent-color);
+    padding: 2px 6px;
+    background: var(--background-color2);
+
+    &:hover {
+      background: var(--accent-color);
+      color: #000;
+    }
+  }
 `;
 
 function NoticeBoard() {
@@ -54,12 +67,18 @@ function NoticeBoard() {
     <Section>
       <SectionTitle><Megaphone /> 公告</SectionTitle>
       <NoticeCard>
+        <b>2026-03-21</b> | 目錄章節排序可切換，進入書籍一律進入目錄，不再直接跳轉最新章節。<br />
         <b>2026-03-14</b> | 透過 Cloudflare 代理 API 請求以解決 CORS 封鎖問題。<br />
         <b>2026-03-13</b> | 已移除無法使用的 API，並標示服務範圍，改善錯誤訊息顯示。<br />
         <b>2026-03-10</b> | 章節頁頂部新增調色盤按鈕，可切換七種背景，淺色背景自動搭配深色文字以提升閱讀舒適度。<br />
         <b>2026-03-10</b> | 介面全新改版：採用復古極簡風格，明體字型優化閱讀體驗，閱讀區更簡潔專注。<br />
         <b>2026-03-10</b> | 繁簡轉換改為下拉選單，可選擇原文簡體、臺灣繁體、香港繁體，預設為臺灣繁體。<br />
         <b>2026-03-09</b> | 章節快取已升級至 IndexedDB，不再受 localStorage 容量限制，可下載更多章節。
+      </NoticeCard>
+      <NoticeCard>
+        書籍詳情與目錄請用 <b>基礎服務</b> 取得，章節下載請用 <b>快速章節服務</b>。<br />
+        部分書籍使用 <b>快速章節服務</b> 時會出現空章，遇此情況可切回使用 <b>基礎服務</b>。<br />
+        基礎服務限流較嚴，服務偶有中斷，敬請見諒。站長會持續關注狀況，若有問題歡迎至 <a href="https://github.com/denniemok/fanqie-novel-reader/issues" target="_blank" rel="noopener noreferrer">Issues</a> 回報。<br />
       </NoticeCard>
     </Section>
   );

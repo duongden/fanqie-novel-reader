@@ -15,9 +15,3 @@ export function buildCommentsUrl(bookId, page = 1) {
   if (page > 1) params.set('page', String(page));
   return `/comments?${params.toString()}`;
 }
-
-export function buildChapterOrCatalogUrl(bookId, lastReadItemId = null) {
-  return lastReadItemId 
-    ? buildChapterUrl(lastReadItemId, bookId)
-    : buildCatalogUrl(bookId);
-}

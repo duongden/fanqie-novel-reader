@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteBookData, getLastReadChapter } from '../../utils/storage';
+import { deleteBookData } from '../../utils/storage';
 import { useToast } from '../../contexts/ToastContext';
 import { useConversionMode } from '../../hooks/useConversionMode';
 import { maybeConvert } from '../../utils/zh-convert';
-import { buildChapterOrCatalogUrl, buildCatalogUrl, buildCommentsUrl } from '../../utils/navigation';
+import { buildCatalogUrl, buildCommentsUrl } from '../../utils/navigation';
 import { formatErrorMessage } from '../../utils/errors';
 import Bookshelf from './Bookshelf';
 import AddBook from './AddBook';
@@ -31,19 +31,15 @@ function Content() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [conversionMode, setConversionMode] = useConversionMode();
 
-  const handleBookInputSubmit = (bookId) => {
-    const lastReadItemId = getLastReadChapter(bookId);
-    navigate(buildChapterOrCatalogUrl(bookId, lastReadItemId));
-  };
+  const goToCatalog = (bookId) => navigate(buildCatalogUrl(bookId));
 
-  const handleBookClick = (bookId) => {
-    const lastReadItemId = getLastReadChapter(bookId);
-    navigate(buildChapterOrCatalogUrl(bookId, lastReadItemId));
-  };
+  const handleBookInputSubmit = goToCatalog;
+
+  const handleBookClick = goToCatalog;
 
   const handleCatalogClick = (e, bookId) => {
     e.stopPropagation();
-    navigate(buildCatalogUrl(bookId));
+    goToCatalog(bookId);
   };
 
   const handleCommentClick = (e, bookId) => {

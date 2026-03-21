@@ -8,7 +8,7 @@ import PageWrapper from '../components/common/PageWrapper';
 import { useToast } from '../contexts/ToastContext';
 import TopBar from '../components/catalog/TopBar';
 import styled from 'styled-components';
-import { getLastReadChapter, isChapterCached } from '../utils/storage';
+import { getLastReadChapter, getSortOrder, setSortOrder, isChapterCached } from '../utils/storage';
 import { sortChaptersByNumber } from '../utils/sorting';
 import { exportBookToTxt } from '../utils/exportBookTxt';
 import { useConversionMode } from '../hooks/useConversionMode';
@@ -35,7 +35,7 @@ function Catalog() {
   const { error, bookInfo, loadBook } = useBookLoader(bookId);
   const { addToQueue, isDownloading, startDownloadAll, stopDownloadAll, isDownloadingAll, completedDownloads } = useDownloadManager();
   const { showToast } = useToast();
-  const [sortOrder, setSortOrder] = useState('ascending');
+  const [sortOrder, setSortOrderState] = useState(getSortOrder);
   const [conversionMode, setConversionMode] = useConversionMode();
   const [, setCatalogRefresh] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
@@ -91,7 +91,9 @@ function Catalog() {
   };
 
   const handleSortChange = () => {
-    setSortOrder(sortOrder === 'ascending' ? 'descending' : 'ascending');
+    const next = sortOrder === 'ascending' ? 'descending' : 'ascending';
+    setSortOrder(next);
+    setSortOrderState(next);
     setCurrentPage(0);
   };
 

@@ -14,9 +14,14 @@ export async function onRequestGet(context) {
   }
 
   try {
+    const clientUA = context.request.headers.get('User-Agent');
+    const origin = new URL(targetUrl).origin + '/';
     const res = await fetch(targetUrl, {
       headers: {
-        'User-Agent': context.request.headers.get('User-Agent') || 'FanqieTC/1.0',
+        'User-Agent': clientUA || 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+        'Accept': 'application/json, */*',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Referer': origin,
       },
     });
     const body = await res.arrayBuffer();

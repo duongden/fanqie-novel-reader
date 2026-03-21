@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BookOpen } from 'lucide-react';
 import BookCard from './BookCard';
-import { getLastReadChapter, getReadingHistory } from '../../utils/storage';
+import { getReadingHistory } from '../../utils/storage';
 
 const Section = styled.section`
   display: flex;
@@ -44,23 +44,18 @@ function Bookshelf({ refreshKey, onBookClick, onCatalogClick, onCommentClick, on
   return (
     <Section key={refreshKey}>
       <SectionTitle><BookOpen /> 閱讀歷史</SectionTitle>
-      {readingHistory.map(({ bookId }) => {
-        const lastReadItemId = getLastReadChapter(bookId);
-        const actionHint = lastReadItemId ? '繼續閱讀 →' : '前往目錄 →';
-
-        return (
+      {readingHistory.map(({ bookId }) => (
           <BookCard
             key={bookId}
             bookId={bookId}
-            actionHint={actionHint}
+            actionHint="前往目錄 →"
             onClick={() => onBookClick(bookId)}
             onCatalogClick={(e) => onCatalogClick(e, bookId)}
             onCommentClick={(e) => onCommentClick?.(e, bookId)}
             onDeleteClick={onDeleteClick}
             conversionMode={conversionMode}
           />
-        );
-      })}
+      ))}
     </Section>
   );
 }

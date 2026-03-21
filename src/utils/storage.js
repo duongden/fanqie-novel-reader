@@ -1,4 +1,5 @@
 import {
+  SORT_ORDER_KEY,
   READING_HISTORY_KEY,
   READING_HISTORY_MAX,
   FONT_SIZE_KEY,
@@ -161,6 +162,17 @@ export function getConversionMode() {
 export function setConversionMode(mode) {
   const valid = mode === 'original' || mode === 'tw' || mode === 'hk';
   return valid ? safeSetItem(TRADITIONAL_CHINESE_KEY, mode) : false;
+}
+
+/** @returns {'ascending'|'descending'} Default: 'ascending' */
+export function getSortOrder() {
+  const raw = safeGetItem(SORT_ORDER_KEY);
+  return raw === 'descending' ? 'descending' : 'ascending';
+}
+
+export function setSortOrder(order) {
+  const valid = order === 'ascending' || order === 'descending';
+  return valid ? safeSetItem(SORT_ORDER_KEY, order) : false;
 }
 
 export async function isChapterCached(itemId) {
