@@ -54,7 +54,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Noto Serif TC', 'PMingLiU', Georgia, serif;
+  font-family: 'Noto Serif TC', 'Noto Serif SC', sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
   line-height: 1.6;

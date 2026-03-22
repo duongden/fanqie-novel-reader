@@ -39,6 +39,11 @@ export const PROXY_URLS = [
   'https://proxy-3.fanqietc.workers.dev',
   'https://proxy-4.fanqietc.workers.dev',
   'https://proxy-5.fanqietc.workers.dev',
+  'https://proxy-6.fanqietc.workers.dev',
+  'https://proxy-7.fanqietc.workers.dev',
+  'https://proxy-8.fanqietc.workers.dev',
+  'https://proxy-9.fanqietc.workers.dev',
+  'https://proxy-10.fanqietc.workers.dev',
 ];
 
 /** API sources: { value: opaque ID (used with proxy), label: display name } — real URLs live in proxy only */
@@ -49,12 +54,12 @@ export const API_OPTIONS = [
 
 /** Chinese fonts for reader: { value: CSS font-family, label: display name } */
 export const CHINESE_FONTS = [
-  { value: "'Noto Serif TC', 'Noto Serif SC', Georgia, serif", label: '系統預設' },
-  { value: "'Noto Serif TC', 'Noto Serif SC', serif", label: '思源宋體' },
-  { value: "'PMingLiU', 'Songti TC', 'Songti SC', serif", label: '新細明體' },
-  { value: "'STSong', '华文宋体', 'STFangsong', serif", label: '華文宋體' },
-  { value: "'BiauKai', '標楷體', 'Kaiti TC', 'Kaiti SC', serif", label: '標楷體' },
-  { value: "'LXGW WenKai TC', 'LXGW WenKai', serif", label: '霞鷸文楷' },
+  { value: "'Noto Serif TC', 'Noto Serif SC', sans-serif", label: '系統預設' },
+  { value: "'Noto Serif TC', 'Noto Serif SC', sans-serif", label: '思源宋體' },
+  { value: "'PMingLiU', 'Songti TC', 'Songti SC', sans-serif", label: '新細明體' },
+  { value: "'STSong', '华文宋体', 'STFangsong', sans-serif", label: '華文宋體' },
+  { value: "'BiauKai', '標楷體', 'Kaiti TC', 'Kaiti SC', sans-serif", label: '標楷體' },
+  { value: "'LXGW WenKai TC', 'LXGW WenKai', sans-serif", label: '霞鷸文楷' },
   { value: "'Noto Sans TC', 'Noto Sans SC', sans-serif", label: '思源黑體' },
   { value: "'Microsoft JhengHei', 'Heiti TC', 'Heiti SC', sans-serif", label: '微軟正黑體' },
 ];

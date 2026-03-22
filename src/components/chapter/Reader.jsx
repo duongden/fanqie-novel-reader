@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { maybeConvert } from '../../utils/zh-convert';
-import { READER_BACKGROUND_OPTIONS } from '../../utils/constants';
+import { READER_BACKGROUND_OPTIONS, FONT_SIZE_DEFAULT, TEXT_BRIGHTNESS_DEFAULT } from '../../utils/constants';
 
 const ReaderWrapper = styled.div`
   margin: 0 auto;
@@ -20,12 +20,12 @@ const ReaderWrapper = styled.div`
 
   p {
     line-height: 2;
-    font-size: ${(p) => p.$fontSize ?? 18}px;
-    color: color-mix(in srgb, ${(p) => p.$textColor ?? 'var(--text-color)'} ${(p) => p.$textBrightness ?? 90}%, transparent);
+    font-size: ${(p) => p.$fontSize ?? FONT_SIZE_DEFAULT}px;
+    color: color-mix(in srgb, ${(p) => p.$textColor ?? 'var(--text-color)'} ${(p) => p.$textBrightness ?? TEXT_BRIGHTNESS_DEFAULT}%, transparent);
     margin-bottom: 1.8em;
     text-align: justify;
     letter-spacing: 0.05em;
-    font-family: ${(p) => p.$fontFamily ?? 'Noto Serif TC, PMingLiU, Georgia, serif'};
+    font-family: ${(p) => p.$fontFamily ?? "'Noto Serif TC', 'Noto Serif SC', sans-serif"};
   }
 
   br {
@@ -33,7 +33,7 @@ const ReaderWrapper = styled.div`
   }
 `;
 
-function Reader({ chapterData, fontSize = 18, fontFamily = 'Georgia, serif', textBrightness = 90, readerBackground, conversionMode = 'tw' }) {
+function Reader({ chapterData, fontSize = FONT_SIZE_DEFAULT, fontFamily = "'Noto Serif TC', 'Noto Serif SC', sans-serif", textBrightness = TEXT_BRIGHTNESS_DEFAULT, readerBackground, conversionMode = 'tw' }) {
   const textColor = READER_BACKGROUND_OPTIONS.find((o) => o.value === readerBackground)?.textColor;
   if (!chapterData || !chapterData.content) return null;
 
