@@ -138,13 +138,23 @@ export async function fetchBookDetail(bookId, { forceRefresh = false, signal } =
 
   const url = getFetchUrl('detail', { book_id: bookId });
   const json = await fetchAndValidate(url, { signal });
-  
-  const d = json.data?.data ?? {};
+
+  const payload = json.data?.data;
+  let d = {};
+  if (Array.isArray(payload)) {
+    d =
+      payload.find((b) => b != null && String(b.book_id) === String(bookId)) ??
+      payload[0] ??
+      {};
+  } else if (payload && typeof payload === 'object') {
+    d = payload;
+  }
+
   const result = {
-    abstract: d.abstract || null,
+    abstract: d.abstract || d.book_abstract_v2 || null,
     author: d.author || null,
-    audio_thumb_uri: d.audio_thumb_uri || null,
-    original_book_name: d.original_book_name || null,
+    audio_thumb_uri: d.audio_thumb_uri || d.thumb_url || d.bookshelf_thumb_url || null,
+    original_book_name: d.original_book_name || d.book_name || null,
     score: d.score || null,
     tags: d.tags || null,
     category: d.category || null,
