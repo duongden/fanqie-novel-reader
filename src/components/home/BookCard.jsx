@@ -109,7 +109,7 @@ const ActionButton = styled.button`
   justify-content: center;
   transition: all 0.1s steps(2);
   background-color: ${(p) =>
-    p.$variant === 'delete' ? '#aa5555' : p.$variant === 'comment' ? '#55aa55' : p.$variant === 'refresh' ? '#5588aa' : p.$variant === 'bookmark' ? '#aa8866' : p.$variant === 'reorder' ? '#6688aa' : 'var(--background-color2)'};
+    p.$variant === 'delete' ? '#aa5555' : p.$variant === 'comment' ? '#55aa55' : p.$variant === 'refresh' ? '#5588aa' : p.$variant === 'bookmark' ? '#aa55aa' : p.$variant === 'reorder' ? '#aa8866' : 'var(--background-color2)'};
   color: ${(p) => (p.$variant ? '#000' : 'var(--text-color)')};
   box-shadow: 2px 2px 0px var(--background-color);
 
