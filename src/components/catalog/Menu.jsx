@@ -72,15 +72,6 @@ const MenuItem = styled.li`
     transform: translateX(4px);
   }
 
-  span.word-count {
-    font-size: 12px;
-    color: var(--text-color-secondary);
-    margin-left: 16px;
-    opacity: 0.7;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-
   .chapter-actions {
     display: flex;
     align-items: center;
@@ -104,9 +95,6 @@ const MenuItem = styled.li`
     a {
       font-size: 15px;
     }
-    span.word-count {
-      display: none;
-    }
   }
 `;
 
@@ -122,7 +110,6 @@ function Menu({ itemDataList, sortOrder, bookId, conversionMode = 'tw', onChapte
         <MenuItem key={item.item_id}>
           <MenuItemLink item={item} bookId={bookId} conversionMode={conversionMode} isDownloading={isDownloading(item.item_id)} />
           <ChapterActions item={item} onChapterDeleted={onChapterDeleted} />
-          {item.chapter_word_number != null && <span className="word-count">共計{item.chapter_word_number}字</span>}
         </MenuItem>
       ))}
     </MenuList>

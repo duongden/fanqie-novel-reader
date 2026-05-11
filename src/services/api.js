@@ -114,7 +114,7 @@ async function fetchAndValidate(url, options = {}) {
   } catch (parseErr) {
     throw new Error('Invalid response from server');
   }
-  const valid = (json.code !== undefined && json.code === 200) || (json.success !== undefined && json.success === true);
+  const valid = (json.code !== undefined && json.code === 0) || (json.success !== undefined && json.success === true);
   if (!valid) throw new Error('Failed to fetch data');
   return json;
 }
@@ -190,7 +190,6 @@ export async function fetchBookDirectory(bookId, { forceRefresh = false, signal 
     item_id: item.item_id,
     title: item.title,
     version: item.version,
-    chapter_word_number: item.chapter_word_number ?? null,
   }));
   
   const inner = { book_info: {}, item_data_list: itemDataList };

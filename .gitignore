@@ -12,6 +12,9 @@
 /dist
 
 # misc
+.env
+.env.*
+!.env.example
 .DS_Store
 *.pem
 
