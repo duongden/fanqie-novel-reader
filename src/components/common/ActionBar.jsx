@@ -93,8 +93,7 @@ const ToolsPanel = styled.div`
     transform: translateX(${(p) => (p.$open ? '0' : '100%')});
     transition: transform 0.25s ease-out;
     max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
   }
 `;
 
