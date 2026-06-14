@@ -9,6 +9,9 @@ import {
   Grid2X2,
   LayoutList,
   Plus,
+  BookPlus,
+  FolderPlus,
+  FolderInput,
   Trash2,
   X,
   Check,
@@ -71,20 +74,21 @@ const TabBar = styled.div`
 
 const Tab = styled.button`
   flex-shrink: 0;
-  padding: 10px 16px;
+  padding: 13px 18px;
+  min-height: 44px;
   background: ${(p) => (p.$active ? 'var(--accent-color)' : 'var(--background-color2)')};
   color: ${(p) => (p.$active ? '#000' : 'var(--text-color-secondary)')};
   border: none;
   border-right: 1px solid var(--border-color);
-  font-size: 13px;
-  font-weight: 900;
-  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--ui-font-family);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: all 0.1s steps(2);
   white-space: nowrap;
-  max-width: 160px;
+  max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
 
@@ -96,7 +100,8 @@ const Tab = styled.button`
 
 const AddTabBtn = styled.button`
   flex-shrink: 0;
-  padding: 10px 14px;
+  padding: 13px 16px;
+  min-height: 44px;
   background: var(--background-color2);
   color: var(--text-color-secondary);
   border: none;
@@ -107,8 +112,8 @@ const AddTabBtn = styled.button`
   transition: all 0.1s steps(2);
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 
   &:hover {
@@ -117,7 +122,7 @@ const AddTabBtn = styled.button`
   }
 `;
 
-const TOOLBAR_CONTROL_HEIGHT = '32px';
+const TOOLBAR_CONTROL_HEIGHT = '44px';
 
 const NewTabRow = styled.div`
   display: flex;
@@ -127,12 +132,13 @@ const NewTabRow = styled.div`
 
 const NewTabInput = styled.input`
   flex: 1;
-  padding: 8px 12px;
+  padding: 10px 14px;
+  min-height: ${TOOLBAR_CONTROL_HEIGHT};
   background: var(--background-color);
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  font-size: 14px;
-  font-family: inherit;
+  font-size: 15px;
+  font-family: var(--ui-font-family);
   outline: none;
 
   &:focus {
@@ -166,8 +172,8 @@ const SmallIconBtn = styled.button`
   transition: all 0.1s steps(2);
 
   svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
   }
 
   &:hover {
@@ -229,9 +235,10 @@ const SortWrapper = styled.label`
 const SortLabel = styled.span`
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  font-size: 12px;
+  padding: 0 12px;
+  font-size: 14px;
   font-weight: 700;
+  font-family: var(--ui-font-family);
   color: var(--text-color-secondary);
   background: var(--background-color2);
   border-right: 1px solid var(--border-color);
@@ -245,19 +252,19 @@ const SortControl = styled.div`
 `;
 
 const SortSelect = styled.select`
-  padding: 0 10px;
+  padding: 0 12px;
   height: 100%;
   background: var(--background-color2);
   color: var(--text-color);
   border: none;
   border-right: ${(p) => (p.$hasTrailingBtn ? '1px solid var(--border-color)' : 'none')};
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
-  font-family: inherit;
+  font-family: var(--ui-font-family);
   line-height: 1;
   cursor: pointer;
   outline: none;
-  max-width: 120px;
+  max-width: 132px;
 
   &:focus {
     outline: none;
@@ -265,7 +272,7 @@ const SortSelect = styled.select`
 `;
 
 const SortTrailingBtn = styled.button`
-  padding: 0 10px;
+  padding: 0 12px;
   height: 100%;
   background: ${(p) => (p.$active ? 'var(--accent-color)' : 'var(--background-color2)')};
   color: ${(p) => (p.$active ? '#000' : 'var(--accent-color)')};
@@ -274,18 +281,18 @@ const SortTrailingBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
+  font-family: var(--ui-font-family);
   line-height: 1;
   white-space: nowrap;
-  font-family: inherit;
   transition: all 0.1s steps(2);
 
   svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     flex-shrink: 0;
   }
 
@@ -295,17 +302,19 @@ const SortTrailingBtn = styled.button`
 `;
 
 const ReorderHint = styled.div`
-  font-size: 12px;
+  font-size: 15px;
+  font-family: var(--ui-font-family);
   color: var(--accent-color);
-  padding: 6px 10px;
+  padding: 12px 16px;
   border: 1px dashed var(--accent-color);
   background: rgba(212, 165, 116, 0.08);
   width: 100%;
   text-align: center;
+  line-height: 1.55;
 `;
 
 const ToggleBtn = styled.button`
-  padding: 0 10px;
+  padding: 0 14px;
   height: 100%;
   background: ${(p) => (p.$active ? 'var(--accent-color)' : 'var(--background-color2)')};
   color: ${(p) => (p.$active ? '#000' : 'var(--text-color-secondary)')};
@@ -314,16 +323,16 @@ const ToggleBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  font-size: 12px;
+  gap: 6px;
+  font-size: 14px;
   font-weight: 700;
-  font-family: inherit;
+  font-family: var(--ui-font-family);
   line-height: 1;
   transition: all 0.1s steps(2);
 
   svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
   }
 
   &:not(:last-child) {
@@ -368,13 +377,13 @@ const RenameInput = styled.input`
   min-width: 0;
   height: ${TOOLBAR_CONTROL_HEIGHT};
   box-sizing: border-box;
-  padding: 0 10px;
+  padding: 0 12px;
   background: var(--background-color);
   border: 1px solid var(--accent-color);
   color: var(--text-color);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
-  font-family: inherit;
+  font-family: var(--ui-font-family);
   outline: none;
 `;
 
@@ -744,7 +753,7 @@ function Content({ conversionMode = 'tw' }) {
             </Tab>
           ))}
           <AddTabBtn onClick={() => setShowNewTabInput(true)} title="新增收藏夾">
-            <Plus />
+            <FolderPlus />
           </AddTabBtn>
         </TabBar>
       )}
@@ -783,16 +792,6 @@ function Content({ conversionMode = 'tw' }) {
           )
         )}
         <ToolbarRight>
-          <ViewToggle>
-            <ToggleBtn
-              type="button"
-              onClick={() => navigate(ROUTES.newBook)}
-              title="新增書籍"
-              aria-label="新增書籍"
-            >
-              <Plus /> 新書
-            </ToggleBtn>
-          </ViewToggle>
           <SortWrapper>
             <SortLabel>排序</SortLabel>
             <SortControl>
@@ -842,6 +841,16 @@ function Content({ conversionMode = 'tw' }) {
               aria-pressed={settingsMode}
             >
               <Settings /> 管理
+            </ToggleBtn>
+          </ViewToggle>
+          <ViewToggle>
+            <ToggleBtn
+              type="button"
+              onClick={() => navigate(ROUTES.newBook)}
+              title="新增書籍"
+              aria-label="新增書籍"
+            >
+              <BookPlus /> 新書
             </ToggleBtn>
           </ViewToggle>
           <ViewToggle>

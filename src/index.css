@@ -21,6 +21,9 @@
   --retro-shadow-hover: 2px 2px 0px #050505;
   --retro-border-width: 2px;
 
+  /* UI controls (toolbars, tabs, buttons) */
+  --ui-font-family: 'Noto Sans TC', 'Noto Sans SC', 'Microsoft JhengHei', sans-serif;
+
   /* Progress Bar */
   --progressBar: #1a1a1a;
   --progress: #d4a574;

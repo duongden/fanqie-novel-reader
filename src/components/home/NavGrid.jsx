@@ -17,7 +17,7 @@ const Grid = styled.div`
     gap: 12px;
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 400px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }

@@ -9,6 +9,10 @@ const HeaderWrapper = styled.header`
   padding-top: calc(80px + env(safe-area-inset-top));
   margin-bottom: 24px;
   gap: 16px;
+
+  @media (max-width: 400px) {
+    padding-top: calc(30px + env(safe-area-inset-top));
+  }
 `;
 
 const Title = styled.h1`
@@ -24,7 +28,7 @@ const Title = styled.h1`
   background-color: var(--background-color2);
   box-shadow: var(--retro-shadow);
 
-  @media (max-width: 380px) {
+  @media (max-width: 400px) {
     font-size: 28px;
     padding: 6px 24px;
   }

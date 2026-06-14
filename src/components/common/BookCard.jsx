@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { BookmarkPlus, GripVertical, Loader2, RefreshCw, Trash2 } from 'lucide-react';
+import { GripVertical, Loader2, RefreshCw, Trash2, FolderInput } from 'lucide-react';
 import Info from '../book/Info';
 import { useBookLoader } from '../../hooks/useBookLoader';
 import { useToast } from '../../contexts/ToastContext';
@@ -300,7 +300,7 @@ function BookCard({
             title="加入收藏夾"
             aria-label="加入收藏夾"
           >
-            <BookmarkPlus />
+            <FolderInput />
           </ActionButton>
         )}
         <ActionButton
