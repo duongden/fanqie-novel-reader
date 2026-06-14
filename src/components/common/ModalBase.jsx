@@ -12,6 +12,11 @@ export const ModalOverlay = styled.div`
   justify-content: center;
   padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right))
     max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+
+  @media (max-width: 480px) {
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+      max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
 `;
 
 export const ModalBox = styled.div`
@@ -102,10 +107,14 @@ export const ModalFooterRow = styled.div`
   gap: 8px;
   padding: 12px 16px;
   border-top: 1px solid var(--border-color);
+  min-width: 0;
+  align-items: stretch;
 `;
 
 export const ModalInput = styled.input`
   flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
   padding: 8px 10px;
   background: var(--background-color);
   border: 1px solid var(--border-color);
@@ -142,6 +151,8 @@ const modalButtonStyles = `
 
 export const ModalPrimaryButton = styled.button`
   ${modalButtonStyles}
+  flex-shrink: 0;
+  box-sizing: border-box;
   background: var(--accent-color);
   color: #000;
   border: 2px solid #000;

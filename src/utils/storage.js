@@ -288,6 +288,23 @@ export async function removeBookFromCollection(collectionId, bookId) {
   return saveCollections(collections);
 }
 
+/** Move a book within a collection's bookIds; order is user-controlled. */
+export async function reorderCollectionBooks(collectionId, fromIndex, toIndex) {
+  const collections = await getCollections();
+  const col = collections.find((c) => c.id === collectionId);
+  if (!col) return false;
+  const bookIds = [...col.bookIds];
+  if (fromIndex < 0 || fromIndex >= bookIds.length || toIndex < 0 || toIndex >= bookIds.length) {
+    return false;
+  }
+  if (fromIndex === toIndex) return true;
+  const [item] = bookIds.splice(fromIndex, 1);
+  bookIds.splice(toIndex, 0, item);
+  return saveCollections(
+    collections.map((c) => (c.id === collectionId ? { ...c, bookIds } : c))
+  );
+}
+
 // ── Bookshelf view mode ───────────────────────────────────────────────────────
 
 export function getBookshelfViewMode() {

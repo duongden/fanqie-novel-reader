@@ -49,6 +49,7 @@ import {
   renameCollection,
   addBookToCollection,
   removeBookFromCollection,
+  reorderCollectionBooks,
 } from '../../utils/storage';
 import { BOOKSHELF_SORT_OPTIONS, sortBookshelfItems } from '../../utils/bookshelfSort';
 import { useBookshelfSortMeta } from '../../hooks/useBookshelfSortMeta';
@@ -129,10 +130,15 @@ const NewTabRow = styled.div`
   display: flex;
   gap: 4px;
   align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 `;
 
 const NewTabInput = styled.input`
   flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
   padding: 10px 14px;
   min-height: ${TOOLBAR_CONTROL_HEIGHT};
   background: var(--background-color);
@@ -195,6 +201,7 @@ const TabActionGroup = styled.div`
   display: flex;
   align-items: stretch;
   gap: 4px;
+  flex-shrink: 0;
 `;
 
 const RenameRow = styled.div`
@@ -457,6 +464,17 @@ function Content({ conversionMode = 'tw' }) {
     window.scrollTo(0, scrollY);
   }, []);
 
+  const handleCollectionReorder = useCallback(async (fromIndex, toIndex) => {
+    const scrollY = window.scrollY;
+    await reorderCollectionBooks(activeTab, fromIndex, toIndex);
+    const cols = await getCollections();
+    flushSync(() => {
+      setCollections(cols);
+      setRenderTick((k) => k + 1);
+    });
+    window.scrollTo(0, scrollY);
+  }, [activeTab]);
+
   const closeConfirmDialog = () => setConfirmDialog(null);
 
   const handleConfirmDialog = async () => {
@@ -590,13 +608,13 @@ function Content({ conversionMode = 'tw' }) {
     }
   }, [activeTab, collections]);
 
-  useEffect(() => {
-    if (activeTab !== ALL_TAB || isSampleOnly || sortBy !== 'manual') {
-      setReorderMode(false);
-    }
-  }, [activeTab, isSampleOnly, sortBy]);
+  const canReorder = sortBy === 'manual' && (activeTab !== ALL_TAB || !isSampleOnly);
 
-  const canReorder = activeTab === ALL_TAB && !isSampleOnly && sortBy === 'manual';
+  useEffect(() => {
+    if (!canReorder) setReorderMode(false);
+  }, [canReorder]);
+
+  const handleReorder = activeTab === ALL_TAB ? handleHistoryReorder : handleCollectionReorder;
 
   const renderBooks = () => {
     if (sortedDisplayBooks.length === 0) {
@@ -629,7 +647,7 @@ function Content({ conversionMode = 'tw' }) {
             layout="list"
             items={sortedDisplayBooks}
             getKey={({ bookId }) => bookId}
-            onReorder={handleHistoryReorder}
+            onReorder={handleReorder}
             renderItem={({ bookId }, sortable) => (
               <BookCard
                 {...bookCardProps(bookId)}
@@ -659,7 +677,7 @@ function Content({ conversionMode = 'tw' }) {
           layout="grid"
           items={sortedDisplayBooks}
           getKey={({ bookId }) => bookId}
-          onReorder={handleHistoryReorder}
+          onReorder={handleReorder}
           renderItem={({ bookId }, sortable) => (
             <GridCard
               {...bookCardProps(bookId)}
@@ -700,12 +718,14 @@ function Content({ conversionMode = 'tw' }) {
               if (e.key === 'Escape') { setShowNewTabInput(false); setNewTabName(''); }
             }}
           />
-          <SmallIconBtn $variant="confirm" onClick={handleCreateNewTab} title="建立">
-            <Check />
-          </SmallIconBtn>
-          <SmallIconBtn onClick={() => { setShowNewTabInput(false); setNewTabName(''); }} title="取消" $variant="cancel">
-            <X />
-          </SmallIconBtn>
+          <TabActionGroup>
+            <SmallIconBtn $variant="confirm" onClick={handleCreateNewTab} title="建立">
+              <Check />
+            </SmallIconBtn>
+            <SmallIconBtn onClick={() => { setShowNewTabInput(false); setNewTabName(''); }} title="取消" $variant="cancel">
+              <X />
+            </SmallIconBtn>
+          </TabActionGroup>
         </NewTabRow>
       ) : (
         <TabBar>
