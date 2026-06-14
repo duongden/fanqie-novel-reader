@@ -16,21 +16,17 @@ import {
   Settings,
 } from 'lucide-react';
 import BookCard from '../common/BookCard';
+import PageContent from '../common/PageContent';
 import GridCard from './GridCard';
 import SortableBooks from './SortableBooks';
+import CollectionModal from './CollectionModal';
 import ConfirmModal from '../common/ConfirmModal';
 import {
-  Modal,
-  ModalTitleBar,
-  ModalBody,
   ModalText,
-  ModalFooterRow,
-  ModalInput,
-  ModalPrimaryButton,
 } from '../common/ModalBase';
 import { useToast } from '../../contexts/ToastContext';
 import { maybeConvert } from '../../utils/zh-convert';
-import { buildCatalogUrl } from '../../utils/navigation';
+import { buildCatalogUrl, ROUTES } from '../../utils/navigation';
 import { formatErrorMessage } from '../../utils/errors';
 import { SAMPLE_READING_HISTORY_BOOK_ID } from '../../utils/constants';
 import {
@@ -57,27 +53,7 @@ const ALL_TAB = 'all';
 
 // ── Layout ──────────────────────────────────────────────────────────────────
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-top: calc(100px + env(safe-area-inset-top));
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-bottom: 24px;
-  max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
-  gap: 20px;
-
-  @media (max-width: 480px) {
-    padding-top: calc(88px + env(safe-area-inset-top));
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 16px;
-  }
-`;
+const Wrapper = styled(PageContent).attrs({ $variant: 'bookshelf', $gap: 20 })``;
 
 const TabBar = styled.div`
   display: flex;
@@ -402,38 +378,9 @@ const RenameInput = styled.input`
   outline: none;
 `;
 
-// ── Add to Collection Modal ───────────────────────────────────────────────────
-
-const CollectionOption = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  background: ${(p) => (p.$checked ? 'rgba(212, 165, 116, 0.15)' : 'var(--background-color)')};
-  border: 1px solid ${(p) => (p.$checked ? 'var(--accent-color)' : 'var(--border-color)')};
-  color: var(--text-color);
-  font-size: 13px;
-  font-family: inherit;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.1s steps(2);
-
-  &:hover {
-    border-color: var(--accent-color);
-    background: var(--hover-background-color);
-  }
-
-  .check {
-    width: 16px;
-    height: 16px;
-    color: var(--accent-color);
-    flex-shrink: 0;
-  }
-`;
-
 // ── Main component ────────────────────────────────────────────────────────────
 
-function BookshelfContent({ conversionMode = 'tw' }) {
+function Content({ conversionMode = 'tw' }) {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
@@ -544,7 +491,6 @@ function BookshelfContent({ conversionMode = 'tw' }) {
         </ModalText>
       ),
       confirmLabel: '刪除',
-      variant: 'danger',
       errorMessage: '刪除書籍失敗，請稍後再試。',
       onConfirm: async () => {
         await deleteBookData(bookId);
@@ -566,7 +512,6 @@ function BookshelfContent({ conversionMode = 'tw' }) {
         </ModalText>
       ),
       confirmLabel: '移除',
-      variant: 'danger',
       errorMessage: '移除書籍失敗，請稍後再試。',
       onConfirm: async () => {
         await removeBookFromCollection(activeTab, bookId);
@@ -619,7 +564,6 @@ function BookshelfContent({ conversionMode = 'tw' }) {
         </ModalText>
       ),
       confirmLabel: '刪除',
-      variant: 'danger',
       errorMessage: '刪除收藏夾失敗，請稍後再試。',
       onConfirm: async () => {
         await deleteCollection(activeTab);
@@ -830,6 +774,16 @@ function BookshelfContent({ conversionMode = 'tw' }) {
           )
         )}
         <ToolbarRight>
+          <ViewToggle>
+            <ToggleBtn
+              type="button"
+              onClick={() => navigate(ROUTES.newBook)}
+              title="新增書籍"
+              aria-label="新增書籍"
+            >
+              <Plus /> 新書
+            </ToggleBtn>
+          </ViewToggle>
           <SortWrapper>
             <SortLabel>排序</SortLabel>
             <SortControl>
@@ -911,39 +865,15 @@ function BookshelfContent({ conversionMode = 'tw' }) {
       {renderBooks()}
 
       {addToCollectionBookId && (
-        <Modal onClose={() => setAddToCollectionBookId(null)}>
-          <ModalTitleBar title="加入收藏夾" onClose={() => setAddToCollectionBookId(null)} />
-          <ModalBody>
-            {collections.length === 0 ? (
-              <EmptyHint>尚無收藏夾，請先建立一個</EmptyHint>
-            ) : (
-              collections.map((col) => {
-                const checked = col.bookIds.includes(String(addToCollectionBookId));
-                return (
-                  <CollectionOption
-                    key={col.id}
-                    $checked={checked}
-                    onClick={() => handleToggleBookInCollection(col.id, addToCollectionBookId)}
-                  >
-                    {col.name}
-                    {checked && <Check className="check" />}
-                  </CollectionOption>
-                );
-              })
-            )}
-          </ModalBody>
-          <ModalFooterRow>
-            <ModalInput
-              value={newCollectionName}
-              onChange={(e) => setNewCollectionName(e.target.value)}
-              placeholder="新增收藏夾…"
-              onKeyDown={(e) => { if (e.key === 'Enter') handleCreateCollectionFromModal(); }}
-            />
-            <ModalPrimaryButton type="button" onClick={handleCreateCollectionFromModal}>
-              建立
-            </ModalPrimaryButton>
-          </ModalFooterRow>
-        </Modal>
+        <CollectionModal
+          bookId={addToCollectionBookId}
+          collections={collections}
+          newCollectionName={newCollectionName}
+          onNewCollectionNameChange={setNewCollectionName}
+          onClose={() => setAddToCollectionBookId(null)}
+          onToggleBook={handleToggleBookInCollection}
+          onCreateCollection={handleCreateCollectionFromModal}
+        />
       )}
 
       {confirmDialog && (
@@ -951,7 +881,6 @@ function BookshelfContent({ conversionMode = 'tw' }) {
           title={confirmDialog.title}
           message={confirmDialog.message}
           confirmLabel={confirmDialog.confirmLabel}
-          variant={confirmDialog.variant}
           onConfirm={handleConfirmDialog}
           onCancel={closeConfirmDialog}
         />
@@ -962,4 +891,4 @@ function BookshelfContent({ conversionMode = 'tw' }) {
   );
 }
 
-export default BookshelfContent;
+export default Content;

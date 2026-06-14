@@ -6,19 +6,15 @@ const HeaderWrapper = styled.header`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: calc(76px + 32px + env(safe-area-inset-top));
+  padding-top: calc(80px + env(safe-area-inset-top));
   margin-bottom: 24px;
   gap: 16px;
-
-  @media (max-width: 480px) {
-    padding-top: calc(52px + 16px + env(safe-area-inset-top));
-  }
 `;
 
 const Title = styled.h1`
   font-size: 36px;
   font-weight: 900;
-  margin: 0;
+  margin: 0 0 10px;
   color: var(--text-color);
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -28,7 +24,7 @@ const Title = styled.h1`
   background-color: var(--background-color2);
   box-shadow: var(--retro-shadow);
 
-  @media (max-width: 480px) {
+  @media (max-width: 380px) {
     font-size: 28px;
     padding: 6px 24px;
   }
@@ -37,7 +33,7 @@ const Title = styled.h1`
 function Header() {
   return (
     <HeaderWrapper>
-      <Title>閱讀番茄小說</Title>
+      <Title>番茄繁體閱讀</Title>
     </HeaderWrapper>
   );
 }

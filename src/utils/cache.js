@@ -27,7 +27,3 @@ export function getStoreItem(key) {
 export function setStoreItem(key, value) {
   return store.setItem(key, value);
 }
-
-export function removeStoreItem(key) {
-  return store.removeItem(key);
-}

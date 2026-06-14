@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { Minus, Plus, Sun, Moon, RefreshCw, Type, Palette } from 'lucide-react';
 import { useConvertedText } from '../../hooks/useConvertedText';
 import ActionBar from '../common/ActionBar';
-import HomeButton, { HOME_BUTTON_TITLE } from '../common/HomeButton';
-import BookshelfButton, { BOOKSHELF_BUTTON_TITLE } from '../common/BookshelfButton';
-import CatalogButton, { CATALOG_BUTTON_TITLE } from '../common/CatalogButton';
-import ApiDropdown, { API_DROPDOWN_TITLE } from '../common/ApiDropdown';
-import LangDropdown, { LANG_DROPDOWN_TITLE } from '../common/LangDropdown';
+import HomeButton from '../common/HomeButton';
+import BookshelfButton from '../common/BookshelfButton';
+import CatalogButton from '../common/CatalogButton';
+import ApiDropdown from '../common/ApiDropdown';
+import LangDropdown from '../common/LangDropdown';
 import { IconButton } from '../common/IconButton';
 import IconDropdown from '../common/IconDropdown';
 import { FONT_SIZE_MIN, FONT_SIZE_MAX, TEXT_BRIGHTNESS_MIN, TEXT_BRIGHTNESS_MAX, CHINESE_FONTS, READER_BACKGROUND_OPTIONS } from '../../utils/constants';
@@ -128,8 +128,8 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
           {bookInfo && <h3>{convertedBookName}</h3>}
         </TitleBlock>
         <ActionBar>
-            <HomeButton title={HOME_BUTTON_TITLE} />
-            <BookshelfButton title={BOOKSHELF_BUTTON_TITLE} />
+            <HomeButton />
+            <BookshelfButton />
             {onFontSizeChange && (
               <IconButton
                 type="button"
@@ -190,10 +190,9 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
                 onChange={onReaderBackgroundChange}
               />
             )}
-            <ApiDropdown title={API_DROPDOWN_TITLE} />
+            <ApiDropdown />
             {onConversionModeChange && (
               <LangDropdown
-                title={LANG_DROPDOWN_TITLE}
                 value={conversionMode}
                 onChange={onConversionModeChange}
               />
@@ -204,7 +203,6 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
               </IconButton>
             )}
             <CatalogButton
-              title={CATALOG_BUTTON_TITLE}
               bookId={chapterData?.novel_data?.book_id}
             />
           </ActionBar>

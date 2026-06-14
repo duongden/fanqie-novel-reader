@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import packageJson from '../../../package.json';
 
 const FooterWrapper = styled.footer`
   width: 100%;
@@ -16,7 +17,7 @@ const FooterWrapper = styled.footer`
 function Footer() {
   return (
     <FooterWrapper>
-      FanqieTC · 僅供個人學習交流使用
+      FanqieTC · v{packageJson.version} · 僅供個人學習交流使用
     </FooterWrapper>
   );
 }

@@ -1,15 +1,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styled from 'styled-components';
+import { TopBarOffset } from '../common/PageContent';
 import Info from '../book/Info';
 import { maybeConvert } from '../../utils/zh-convert';
-
-const ContentWrapper = styled.div`
-  padding-top: calc(76px + env(safe-area-inset-top));
-
-  @media (max-width: 480px) {
-    padding-top: calc(68px + env(safe-area-inset-top));
-  }
-`;
 
 const Section = styled.div`
   padding: 24px 24px 24px;
@@ -150,7 +143,7 @@ function Content({
   conversionMode,
 }) {
   return (
-    <ContentWrapper>
+    <TopBarOffset>
       {bookInfo && (
         <Info bookInfo={bookInfo} conversionMode={conversionMode} />
       )}
@@ -222,7 +215,7 @@ function Content({
           </PaginationButton>
         </Pagination>
       </Section>
-    </ContentWrapper>
+    </TopBarOffset>
   );
 }
 

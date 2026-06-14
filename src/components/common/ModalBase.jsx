@@ -152,18 +152,6 @@ export const ModalPrimaryButton = styled.button`
   }
 `;
 
-export const ModalSecondaryButton = styled.button`
-  ${modalButtonStyles}
-  background: var(--background-color2);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  box-shadow: 2px 2px 0px var(--background-color);
-
-  &:hover {
-    background: var(--hover-background-color);
-  }
-`;
-
 export const ModalDangerButton = styled.button`
   ${modalButtonStyles}
   background: #aa5555;

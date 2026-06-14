@@ -1,10 +1,10 @@
 import React from 'react';
 import { Bookmark, Download, FileText, MessageCircle, RefreshCw } from 'lucide-react';
 import TopBarBase from '../common/TopBarBase';
-import HomeButton, { HOME_BUTTON_TITLE } from '../common/HomeButton';
-import BookshelfButton, { BOOKSHELF_BUTTON_TITLE } from '../common/BookshelfButton';
-import ApiDropdown, { API_DROPDOWN_TITLE } from '../common/ApiDropdown';
-import LangDropdown, { LANG_DROPDOWN_TITLE } from '../common/LangDropdown';
+import HomeButton from '../common/HomeButton';
+import BookshelfButton from '../common/BookshelfButton';
+import ApiDropdown from '../common/ApiDropdown';
+import LangDropdown from '../common/LangDropdown';
 import { IconButton } from '../common/IconButton';
 import { buildChapterUrl, buildCommentsUrl } from '../../utils/navigation';
 
@@ -23,8 +23,8 @@ function TopBar({
 }) {
   return (
     <TopBarBase pageTitle="目錄">
-      <HomeButton title={HOME_BUTTON_TITLE} />
-      <BookshelfButton title={BOOKSHELF_BUTTON_TITLE} />
+      <HomeButton />
+      <BookshelfButton />
       <IconButton
         type="button"
         title={downloadingAll ? '停止下載' : hasUncachedChapters ? `下載全部 (${uncachedItemIds.length} 章)` : '已全部下載'}
@@ -41,9 +41,8 @@ function TopBar({
       >
         <FileText size={20} strokeWidth={2.5} />
       </IconButton>
-      <ApiDropdown title={API_DROPDOWN_TITLE} />
+      <ApiDropdown />
       <LangDropdown
-        title={LANG_DROPDOWN_TITLE}
         value={conversionMode}
         onChange={onConversionModeChange}
       />

@@ -1,10 +1,13 @@
+import React from 'react';
 import PageContent from '../common/PageContent';
-import NavGrid from './NavGrid';
+import Form from './Form';
+import Help from './Help';
 
 function Content() {
   return (
-    <PageContent $variant="home" $paddingBottom={24} $paddingBottomMobile={20}>
-      <NavGrid />
+    <PageContent>
+      <Form />
+      <Help />
     </PageContent>
   );
 }

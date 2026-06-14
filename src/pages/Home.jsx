@@ -1,24 +1,8 @@
 import { useSearchParams, Navigate } from 'react-router-dom';
-import styled from 'styled-components';
+import NavPageLayout from '../components/common/NavPageLayout';
 import Content from '../components/home/Content';
-import Footer from '../components/common/Footer';
 import Header from '../components/home/Header';
-import HomeTopBar from '../components/home/HomeTopBar';
 import { buildCatalogUrl } from '../utils/navigation';
-
-const Page = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
-`;
-
-const Main = styled.main`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
 
 function Home() {
   const [searchParams] = useSearchParams();
@@ -29,14 +13,10 @@ function Home() {
   }
 
   return (
-    <Page>
-      <Main>
-        <HomeTopBar />
-        <Header />
-        <Content />
-      </Main>
-      <Footer />
-    </Page>
+    <NavPageLayout>
+      <Header />
+      <Content />
+    </NavPageLayout>
   );
 }
 

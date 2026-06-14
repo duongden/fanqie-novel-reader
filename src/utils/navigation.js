@@ -1,3 +1,10 @@
+export const ROUTES = {
+  home: '/',
+  bookshelf: '/bookshelf',
+  newBook: '/new-book',
+  announcements: '/announcements',
+};
+
 export function buildChapterUrl(itemId, bookId = null) {
   const params = new URLSearchParams({ itemId });
   if (bookId) {

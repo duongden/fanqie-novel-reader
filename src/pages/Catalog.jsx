@@ -7,7 +7,7 @@ import Loading from '../components/common/Loading';
 import PageWrapper from '../components/common/PageWrapper';
 import { useToast } from '../contexts/ToastContext';
 import TopBar from '../components/catalog/TopBar';
-import styled from 'styled-components';
+import { TopBarOffset } from '../components/common/PageContent';
 import { getLastReadChapter, getSortOrder, setSortOrder, isChapterCached } from '../utils/storage';
 import { sortChaptersByNumber } from '../utils/sorting';
 import { exportBookToTxt } from '../utils/exportBookTxt';
@@ -16,14 +16,6 @@ import { useBookLoader } from '../hooks/useBookLoader';
 import { useDownloadManager } from '../contexts/DownloadManager';
 import { CHAPTERS_PER_PAGE, getTotalPages } from '../utils/catalogPagination';
 import { buildCatalogUrl } from '../utils/navigation';
-
-const Content = styled.div`
-  padding-top: calc(76px + env(safe-area-inset-top));
-
-  @media (max-width: 480px) {
-    padding-top: calc(68px + env(safe-area-inset-top));
-  }
-`;
 
 function Catalog() {
   const [searchParams] = useSearchParams();
@@ -138,7 +130,7 @@ function Catalog() {
         />
       )}
       {bookInfo ? (
-        <Content>
+        <TopBarOffset>
           <Info bookInfo={bookInfo} conversionMode={conversionMode} />
           {bookInfo.item_data_list && (
             <Menu
@@ -155,7 +147,7 @@ function Catalog() {
               onSortChange={handleSortChange}
             />
           )}
-        </Content>
+        </TopBarOffset>
       ) : (
         <Loading onAbort={() => navigate('/')} />
       )}

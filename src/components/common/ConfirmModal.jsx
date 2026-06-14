@@ -14,7 +14,6 @@ function ConfirmModal({
   message,
   confirmLabel = '確認',
   cancelLabel = '取消',
-  variant = 'danger',
   onConfirm,
   onCancel,
 }) {
