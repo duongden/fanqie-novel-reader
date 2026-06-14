@@ -24,12 +24,17 @@ const ContentWrapper = styled.div`
 
 const ButtonGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   width: 100%;
 
-  @media (min-width: 600px) {
-    grid-template-columns: repeat(4, 1fr);
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 `;

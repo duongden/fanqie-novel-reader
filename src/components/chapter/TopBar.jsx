@@ -160,13 +160,6 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
                 onChange={onFontFamilyChange}
               />
             )}
-            {onConversionModeChange && (
-              <LangDropdown
-                title={LANG_DROPDOWN_TITLE}
-                value={conversionMode}
-                onChange={onConversionModeChange}
-              />
-            )}
             {onTextBrightnessChange && (
               <IconButton
                 type="button"
@@ -198,6 +191,13 @@ function TopBar({ chapterData, bookInfo, fontSize, onFontSizeChange, fontFamily,
               />
             )}
             <ApiDropdown title={API_DROPDOWN_TITLE} />
+            {onConversionModeChange && (
+              <LangDropdown
+                title={LANG_DROPDOWN_TITLE}
+                value={conversionMode}
+                onChange={onConversionModeChange}
+              />
+            )}
             {onRefresh && (
               <IconButton type="button" title="刷新章節" onClick={onRefresh}>
                 <RefreshCw size={20} strokeWidth={2.5} />

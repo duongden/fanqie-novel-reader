@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Content from '../components/home/Content';
 import Footer from '../components/common/Footer';
 import Header from '../components/home/Header';
+import HomeTopBar from '../components/home/HomeTopBar';
 import { buildCatalogUrl } from '../utils/navigation';
 
 const Page = styled.div`
@@ -30,6 +31,7 @@ function Home() {
   return (
     <Page>
       <Main>
+        <HomeTopBar />
         <Header />
         <Content />
       </Main>

@@ -24,6 +24,14 @@ const TopBarWrapper = styled.div`
   }
 `;
 
+const TitleGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex-shrink: 0;
+`;
+
 const SiteTitle = styled(Link)`
   font-size: 18px;
   font-weight: 900;
@@ -34,6 +42,7 @@ const SiteTitle = styled(Link)`
   border: 1px solid var(--border-color);
   padding: 6px 8px;
   background: var(--background-color2);
+  flex-shrink: 0;
 
   &:hover {
     background: var(--accent-color);
@@ -47,10 +56,40 @@ const SiteTitle = styled(Link)`
   }
 `;
 
-function TopBarBase({ children }) {
+const TitleSep = styled.span`
+  color: var(--text-color-secondary);
+  font-size: 14px;
+  opacity: 0.4;
+  flex-shrink: 0;
+`;
+
+const PageTitleLabel = styled.span`
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
+`;
+
+function TopBarBase({ pageTitle, children }) {
   return (
     <TopBarWrapper>
-      <SiteTitle to="/">番茄繁體閱讀</SiteTitle>
+      <TitleGroup>
+        <SiteTitle to="/">番茄繁體閱讀</SiteTitle>
+        {pageTitle && (
+          <>
+            <TitleSep>›</TitleSep>
+            <PageTitleLabel>{pageTitle}</PageTitleLabel>
+          </>
+        )}
+      </TitleGroup>
       <ActionBar>
         {children}
       </ActionBar>

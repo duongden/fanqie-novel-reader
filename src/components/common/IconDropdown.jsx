@@ -61,7 +61,7 @@ const Option = styled.button`
  * @param {string} props.value - Current selected value
  * @param {function(string): void} props.onChange - Called when an option is selected
  */
-function IconDropdown({ icon, title, ariaLabel, options, value, onChange }) {
+function IconDropdown({ icon, title, ariaLabel, options, value, onChange, disabled = false }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -79,13 +79,14 @@ function IconDropdown({ icon, title, ariaLabel, options, value, onChange }) {
       <IconButton
         type="button"
         title={title}
-        onClick={() => setOpen(!open)}
+        disabled={disabled}
+        onClick={() => !disabled && setOpen(!open)}
         aria-expanded={open}
         aria-haspopup="listbox"
       >
         {icon}
       </IconButton>
-      {open && (
+      {open && !disabled && (
         <Menu role="listbox" aria-label={ariaLabel}>
           {options.map((opt) => (
             <Option

@@ -5,7 +5,7 @@ import { API_OPTIONS } from '../../utils/constants';
 
 export const API_DROPDOWN_TITLE = 'API 服務';
 
-function ApiDropdown({ title = API_DROPDOWN_TITLE }) {
+function ApiDropdown({ title = API_DROPDOWN_TITLE, disabled = false }) {
   const [apiBase, handleApiChange] = useApiBase();
   return (
     <IconDropdown
@@ -15,6 +15,7 @@ function ApiDropdown({ title = API_DROPDOWN_TITLE }) {
       options={API_OPTIONS}
       value={apiBase}
       onChange={handleApiChange}
+      disabled={disabled}
     />
   );
 }

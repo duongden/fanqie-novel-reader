@@ -22,15 +22,9 @@ function TopBar({
   lastReadItemId,
 }) {
   return (
-    <TopBarBase>
+    <TopBarBase pageTitle="目錄">
       <HomeButton title={HOME_BUTTON_TITLE} />
       <BookshelfButton title={BOOKSHELF_BUTTON_TITLE} />
-      <ApiDropdown title={API_DROPDOWN_TITLE} />
-      <LangDropdown
-        title={LANG_DROPDOWN_TITLE}
-        value={conversionMode}
-        onChange={onConversionModeChange}
-      />
       <IconButton
         type="button"
         title={downloadingAll ? '停止下載' : hasUncachedChapters ? `下載全部 (${uncachedItemIds.length} 章)` : '已全部下載'}
@@ -47,19 +41,25 @@ function TopBar({
       >
         <FileText size={20} strokeWidth={2.5} />
       </IconButton>
-      <IconButton
-        type="button"
-        title="評論"
-        onClick={() => navigate(buildCommentsUrl(bookId))}
-      >
-        <MessageCircle size={20} strokeWidth={2.5} />
-      </IconButton>
+      <ApiDropdown title={API_DROPDOWN_TITLE} />
+      <LangDropdown
+        title={LANG_DROPDOWN_TITLE}
+        value={conversionMode}
+        onChange={onConversionModeChange}
+      />
       <IconButton
         type="button"
         title="刷新目錄"
         onClick={onRefresh}
       >
         <RefreshCw size={20} strokeWidth={2.5} />
+      </IconButton>
+      <IconButton
+        type="button"
+        title="評論"
+        onClick={() => navigate(buildCommentsUrl(bookId))}
+      >
+        <MessageCircle size={20} strokeWidth={2.5} />
       </IconButton>
       {lastReadItemId && (
         <IconButton
