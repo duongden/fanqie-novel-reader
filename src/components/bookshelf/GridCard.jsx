@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { GripHorizontal, Loader2, Check } from 'lucide-react';
 import { useBookLoader } from '../../hooks/useBookLoader';
-import { useToast } from '../../contexts/ToastContext';
+import { useErrorToast } from '../../hooks/useErrorToast';
 import { useConvertedText } from '../../hooks/useConvertedText';
 import { shimmerStyle } from '../../utils/styled/animations';
 import { CardLoadingOverlay } from '../common/CardActionButton';
@@ -259,11 +259,7 @@ function GridCard({
     bookDataVersion,
   });
   const isRefreshing = hookRefreshing || bulkRefreshing;
-  const { showToast } = useToast();
-
-  useEffect(() => {
-    if (error) showToast(error);
-  }, [error, showToast]);
+  useErrorToast(error);
 
   const bookInfoData = bookInfo?.book_info || bookInfo || {};
   const {

@@ -1,33 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { IconButton } from './IconButton';
+import { thinScrollbarStyles } from '../../utils/styled/scrollbars';
 
 const Wrapper = styled.div`
   position: relative;
-`;
-
-const menuScrollStyles = css`
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-color) transparent;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 0;
-  }
-
-  @media (hover: hover) {
-    &::-webkit-scrollbar-thumb:hover {
-      background: var(--accent-color);
-    }
-  }
 `;
 
 const Menu = styled.div`
@@ -46,7 +23,7 @@ const Menu = styled.div`
   box-shadow: var(--panel-shadow);
   z-index: 1100;
   padding: 4px;
-  ${menuScrollStyles}
+  ${thinScrollbarStyles}
 `;
 
 const Option = styled.button`

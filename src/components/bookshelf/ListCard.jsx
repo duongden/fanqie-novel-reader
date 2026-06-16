@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { GripVertical, Loader2, Check } from 'lucide-react';
 import BookInfo from '../common/BookInfo';
 import { useBookLoader } from '../../hooks/useBookLoader';
-import { useToast } from '../../contexts/ToastContext';
+import { useErrorToast } from '../../hooks/useErrorToast';
 import { shimmerStyle } from '../../utils/styled/animations';
 import { CardLoadingOverlay } from '../common/CardActionButton';
 
@@ -196,11 +196,7 @@ function ListCard({
     bookDataVersion,
   });
   const isRefreshing = hookRefreshing || bulkRefreshing;
-  const { showToast } = useToast();
-
-  useEffect(() => {
-    if (error) showToast(error);
-  }, [error, showToast]);
+  useErrorToast(error);
 
   if (!bookInfo) {
     if (isLoading) {

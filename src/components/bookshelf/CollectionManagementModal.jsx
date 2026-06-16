@@ -13,22 +13,13 @@ import {
 } from '../common/ModalBase';
 import ConfirmModal from '../common/ConfirmModal';
 import SortableBooks from './SortableBooks';
+import EmptyHint from '../common/EmptyHint';
 
 const Hint = styled.p`
   margin: 0 0 8px;
   font-size: 12px;
   color: var(--text-color-secondary);
   line-height: 1.5;
-`;
-
-const EmptyHint = styled.div`
-  font-size: 13px;
-  color: var(--text-color-secondary);
-  opacity: 0.6;
-  text-align: center;
-  padding: 32px 16px;
-  border: 1px dashed var(--border-color);
-  background: var(--background-color2);
 `;
 
 const CollectionRow = styled.div`
@@ -210,7 +201,7 @@ function CollectionManagementModal({
         <ModalBody $scroll={false}>
           <Hint>拖曳左側握把以調整收藏夾順序</Hint>
           {collections.length === 0 ? (
-            <EmptyHint>尚無收藏夾，請在下方建立一個</EmptyHint>
+            <EmptyHint $compact>尚無收藏夾，請在下方建立一個</EmptyHint>
           ) : (
             <ModalScrollRegion>
               <SortableBooks

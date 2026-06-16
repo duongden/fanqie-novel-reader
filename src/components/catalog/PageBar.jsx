@@ -1,6 +1,8 @@
 import { ArrowDownZA, ArrowUpAZ, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
 import styled from 'styled-components';
 import SelectDropdown from '../common/SelectDropdown';
+import { retroGlassControlBase, retroGlassControlHover } from '../../utils/styled/retro';
+import { DropdownOptionLine } from '../../utils/styled/dropdown';
 
 const Bar = styled.div`
   display: flex;
@@ -33,28 +35,11 @@ const NavButton = styled.button`
   height: 40px;
   box-sizing: border-box;
   border-radius: 0;
-  border: var(--retro-border-width) solid color-mix(in srgb, var(--border-color) 85%, transparent);
-  background: color-mix(in srgb, var(--background-color2) 48%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   color: var(--text-color);
   cursor: pointer;
-  box-shadow: var(--retro-shadow);
-  transition: all 0.1s steps(2);
   flex-shrink: 0;
-
-  &:hover:not(:disabled) {
-    background: color-mix(in srgb, var(--catalog-glass-hover) 75%, transparent);
-    border-color: var(--accent-color);
-    color: var(--accent-color);
-    transform: translate(-1px, -1px);
-    box-shadow: var(--retro-shadow-hover);
-  }
-
-  &:active:not(:disabled) {
-    transform: translate(1px, 1px);
-    box-shadow: none;
-  }
+  ${retroGlassControlBase}
+  ${retroGlassControlHover}
 
   &:disabled {
     opacity: 0.5;
@@ -85,21 +70,9 @@ const NavButton = styled.button`
   }
 `;
 
-const PageLine = styled.span`
-  display: block;
-  font-size: 14px;
-  line-height: 1.2;
-  color: var(--text-color);
-  white-space: nowrap;
-`;
+const PageLine = DropdownOptionLine;
 
-const OptionLine = styled.span`
-  display: block;
-  font-size: 14px;
-  line-height: 1.2;
-  color: var(--text-color);
-  white-space: nowrap;
-`;
+const OptionLine = DropdownOptionLine;
 
 const RangeBracket = styled.span`
   color: var(--text-color-secondary);

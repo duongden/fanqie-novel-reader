@@ -16,6 +16,7 @@ import { useDownloadManager } from '../contexts/DownloadManager';
 import { CHAPTERS_PER_PAGE, getTotalPages } from '../utils/catalogPagination';
 import { buildCatalogUrl, ROUTES } from '../utils/navigation';
 import DownloadAllConfirmModal from '../components/catalog/DownloadAllConfirmModal';
+import { useErrorToast } from '../hooks/useErrorToast';
 
 function Catalog() {
   const [searchParams] = useSearchParams();
@@ -65,9 +66,7 @@ function Catalog() {
     getUncachedItemIds(list.map((item) => item.item_id)).then(setUncachedItemIds);
   }, [bookInfo, completedDownloads]);
 
-  useEffect(() => {
-    if (error) showToast(error);
-  }, [error, showToast]);
+  useErrorToast(error);
   const hasUncachedChapters = uncachedItemIds.length > 0;
   const downloadingAll = isDownloadingAll(bookId);
 

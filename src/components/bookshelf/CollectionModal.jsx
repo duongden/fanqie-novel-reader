@@ -9,16 +9,7 @@ import {
   ModalInput,
   ModalPrimaryButton,
 } from '../common/ModalBase';
-
-const EmptyHint = styled.div`
-  font-size: 13px;
-  color: var(--text-color-secondary);
-  opacity: 0.6;
-  text-align: center;
-  padding: 40px 16px;
-  border: 1px dashed var(--border-color);
-  background: var(--background-color2);
-`;
+import EmptyHint from '../common/EmptyHint';
 
 const CollectionOption = styled.button`
   display: flex;

@@ -1,36 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { X } from 'lucide-react';
-
-export const modalScrollStyles = css`
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--accent-color) 45%, var(--border-color)) transparent;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-    margin: 4px 0;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--accent-color) 35%, var(--border-color));
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-  }
-
-  @media (hover: hover) {
-    &::-webkit-scrollbar-thumb:hover {
-      background: color-mix(in srgb, var(--accent-color) 65%, var(--border-color));
-      background-clip: padding-box;
-    }
-  }
-`;
+import { modalScrollbarStyles } from '../../utils/styled/scrollbars';
 
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -112,7 +83,7 @@ export const ModalBody = styled.div`
     max-height: min(360px, 52dvh);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    ${modalScrollStyles}
+    ${modalScrollbarStyles}
   `}
 `;
 
@@ -124,7 +95,7 @@ export const ModalScrollRegion = styled.div`
   -webkit-overflow-scrolling: touch;
   margin: 0 -2px;
   padding: 2px 4px 2px 2px;
-  ${modalScrollStyles}
+  ${modalScrollbarStyles}
 `;
 
 export const ModalText = styled.p`
@@ -147,16 +118,17 @@ export const ModalFooter = styled.div`
   padding: 12px 16px;
   border-top: 1px solid var(--border-color);
   justify-content: flex-end;
+
+  ${(p) =>
+    p.$stretch &&
+    css`
+      min-width: 0;
+      align-items: stretch;
+    `}
 `;
 
-export const ModalFooterRow = styled.div`
-  display: flex;
-  gap: 8px;
-  padding: 12px 16px;
-  border-top: 1px solid var(--border-color);
-  min-width: 0;
-  align-items: stretch;
-`;
+/** @deprecated Use ModalFooter with $stretch instead. */
+export const ModalFooterRow = styled(ModalFooter).attrs({ $stretch: true })``;
 
 export const ModalInput = styled.input`
   flex: 1;

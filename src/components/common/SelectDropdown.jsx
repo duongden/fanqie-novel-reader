@@ -1,30 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import styled, { css } from 'styled-components';
-
-const menuScrollStyles = css`
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-color) transparent;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 0;
-  }
-
-  @media (hover: hover) {
-    &::-webkit-scrollbar-thumb:hover {
-      background: var(--accent-color);
-    }
-  }
-`;
+import { thinScrollbarStyles } from '../../utils/styled/scrollbars';
+import { retroGlassButtonStyles } from '../../utils/styled/retro';
+import { DropdownOptionLine } from '../../utils/styled/dropdown';
 
 const SelectWrapper = styled.div`
   position: relative;
@@ -130,26 +109,7 @@ const Trigger = styled.button`
   ${(p) =>
     p.$retro &&
     !p.$attached &&
-    css`
-      border: var(--retro-border-width) solid color-mix(in srgb, var(--border-color) 85%, transparent);
-      background: color-mix(in srgb, var(--background-color2) 48%, transparent);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: var(--retro-shadow);
-      transition: all 0.1s steps(2);
-
-      &:hover,
-      &:focus {
-        border-color: var(--accent-color);
-        transform: translate(-1px, -1px);
-        box-shadow: var(--retro-shadow-hover);
-      }
-
-      &:active {
-        transform: translate(1px, 1px);
-        box-shadow: var(--retro-shadow);
-      }
-    `}
+    retroGlassButtonStyles}
 
   @media (max-width: 480px) {
     min-width: ${(p) => p.$minWidthMobile ?? p.$minWidth ?? 96}px;
@@ -164,13 +124,7 @@ const TriggerText = styled.span`
   white-space: nowrap;
 `;
 
-const OptionLine = styled.span`
-  display: block;
-  font-size: 14px;
-  line-height: 1.2;
-  color: var(--text-color);
-  white-space: nowrap;
-`;
+const OptionLine = DropdownOptionLine;
 
 const SelectChevron = styled(ChevronDown)`
   position: absolute;
@@ -209,7 +163,7 @@ const Menu = styled.div`
   box-shadow: ${(p) => (p.$retro ? 'var(--retro-shadow)' : 'var(--panel-shadow)')};
   z-index: 1100;
   padding: 4px;
-  ${menuScrollStyles}
+  ${thinScrollbarStyles}
 
   ${(p) =>
     p.$openUpward

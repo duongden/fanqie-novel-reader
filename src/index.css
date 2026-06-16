@@ -63,19 +63,6 @@
     var(--background-color2) 0%,
     color-mix(in srgb, var(--background-color2) 90%, var(--accent-soft)) 100%
   );
-
-  /* Progress Bar */
-  --progressBar: #e8dce2;
-  --progress: #c9809a;
-  --progressBar-text-color: rgba(74, 61, 72, 0.22);
-  --progressBar-text-full-color: rgba(74, 61, 72, 0.48);
-
-  /* Legacy / Others */
-  --error-background-color: rgba(240, 233, 228, 0.95);
-  --weidu: #f0e9e4;
-  --high-color: #c9809a;
-  --yidu: #b07088;
-  --hide-yidu: rgba(176, 112, 136, 0);
 }
 
 [data-theme="dark"] {
@@ -124,17 +111,6 @@
     transparent 70%
   );
   --selection-bg: rgba(232, 138, 170, 0.35);
-
-  --progressBar: #3d3344;
-  --progress: #e88aaa;
-  --progressBar-text-color: rgba(232, 216, 228, 0.2);
-  --progressBar-text-full-color: rgba(232, 216, 228, 0.45);
-
-  --error-background-color: rgba(42, 34, 48, 0.95);
-  --weidu: #2a2230;
-  --high-color: #e88aaa;
-  --yidu: #c97aaa;
-  --hide-yidu: rgba(201, 122, 170, 0);
   --card-surface: linear-gradient(
     155deg,
     var(--background-color2) 0%,
