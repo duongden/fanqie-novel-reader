@@ -4,8 +4,9 @@ export { MAX_ABSTRACT_LENGTH, MOBILE_ABSTRACT_LENGTH };
 
 /** Strip HTML, normalize newlines; map “ ” (U+201C/U+201D) to 「 」(corner quotes). */
 export function cleanText(html) {
+  const normalizedHtml = String(html).replace(/<\/p><p>(?:<\/p><p>)?/g, '\n');
   const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
+  const doc = parser.parseFromString(normalizedHtml, 'text/html');
   let filteredText = (doc.body.textContent || '')
     .replace(/\n+/g, '\n')
     .replace(/\n\s*\n/g, '\n');

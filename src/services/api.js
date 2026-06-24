@@ -118,10 +118,10 @@ async function fetchAndValidate(url, options = {}) {
   const successOk = json.success !== undefined && json.success === true;
   const codeOk = json.code !== undefined && json.code === 0;
   const oldCodeOk = json.code !== undefined && json.code === 200;
-  if (!successOk && !codeOk && !oldCodeOk) throw new Error('Failed to fetch data');
+  // if (!successOk && !codeOk && !oldCodeOk) throw new Error('Failed to fetch data');
   if (oldCodeOk) return json.data;
   if (successOk) return json.data;
-  return json;
+  return json.data; // return json
 }
 
 function getTopBooksUrl() {
@@ -243,11 +243,12 @@ export async function fetchBookDirectory(bookId, { forceRefresh = false, signal 
   const options = { ...(forceRefresh && { cache: 'no-store' }), ...(signal && { signal }) };
   const json = await fetchAndValidate(url, options);
 
-  const { lists } = json || {};
-  if (!lists || lists.length === 0) {
+  const { lists, item_data_list } = json || {};
+  const rawLists = lists ?? item_data_list;
+  if (!rawLists || rawLists.length === 0) {
     throw new Error('Invalid book ID or book not found');
   }
-  const itemDataList = (lists || []).map((item) => ({
+  const itemDataList = rawLists.map((item) => ({
     item_id: item.item_id,
     title: item.title,
     version: item.version,
