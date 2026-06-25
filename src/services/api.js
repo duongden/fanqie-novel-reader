@@ -1,4 +1,5 @@
 import { API_BASE_KEY, API_OPTIONS, REQUEST_TIMEOUT_MS, RATE_LIMIT_RPM } from '../utils/constants';
+import { httpErrorFromResponse } from '../utils/errors';
 import { safeGetItem, safeSetItem, setLastReadChapter } from '../utils/storage';
 import { directoryCache, chapterCache, detailCache } from '../utils/cache';
 import { cleanText, cleanAbstract } from '../utils/text';
@@ -108,7 +109,7 @@ async function fetchWithTimeout(fetchUrl, options = {}, timeoutMs = REQUEST_TIME
 async function fetchAndValidate(url, options = {}) {
   await waitForRateLimit();
   const res = await fetchWithTimeout(url, options);
-  if (!res.ok) throw new Error('Failed to fetch data');
+  if (!res.ok) throw await httpErrorFromResponse(res);
   let json;
   try {
     json = await res.json();
@@ -153,7 +154,7 @@ function validateDiscoverBooks(books) {
 export async function fetchTopBookList({ signal } = {}) {
   await waitForRateLimit();
   const res = await fetchWithTimeout(getTopBooksUrl(), { signal });
-  if (!res.ok) throw new Error('Failed to fetch data');
+  if (!res.ok) throw await httpErrorFromResponse(res);
   let json;
   try {
     json = await res.json();
@@ -169,7 +170,7 @@ export async function fetchTopBookList({ signal } = {}) {
 export async function fetchRecommendedBookList(type, { signal } = {}) {
   await waitForRateLimit();
   const res = await fetchWithTimeout(getRecommendBooksUrl(type), { signal });
-  if (!res.ok) throw new Error('Failed to fetch data');
+  if (!res.ok) throw await httpErrorFromResponse(res);
   let json;
   try {
     json = await res.json();
